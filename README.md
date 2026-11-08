@@ -84,7 +84,7 @@ Hilfreich für Fehlermeldungen: Meldungen aus der Entwicklerkonsole (F12) mit de
 
 ## Herausgeber
 
-rasch.finance – Alexander Rasch, Eosanderstraße 24, 10587 Berlin, [belegtext@rasch.finance](mailto:belegtext@rasch.finance). Entwicklung: Sebastian Rasch. Anleitung und Fragen: [rasch.finance/belegtext](https://rasch.finance/belegtext/).
+[rasch.finance](https://rasch.finance/belegtext/) · [Impressum](https://rasch.finance/impressum.html) · [belegtext@rasch.finance](mailto:belegtext@rasch.finance)
 
 ## Lizenz
 

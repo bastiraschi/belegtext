@@ -9,7 +9,7 @@ Gilt für Chrome Web Store und Microsoft Edge Add-ons. Hochgeladen wird `belegte
   Text in der Belegansicht von DATEV Unternehmen online markieren und kopieren – auch bei Scans. Inoffiziell, läuft lokal.
 - **Kategorie:** Chrome: „Produktivität → Workflow und Planung“; Edge: „Produktivität“
 - **Sprache:** Deutsch
-- **Herausgeber:** rasch.finance – Alexander Rasch (Entwicklerkonto über einen rasch.finance-Workspace-Account)
+- **Herausgeber:** rasch.finance
 - **Projektseite (Website):** https://rasch.finance/belegtext/
 - **Support:** belegtext@rasch.finance (Support-URL: https://rasch.finance/belegtext/#faq)
 - **Datenschutzerklärung (URL):** https://github.com/bastiraschi/belegtext/blob/main/PRIVACY.md
@@ -66,16 +66,10 @@ Runs only in the document viewer of DATEV Unternehmen online (duo-belegbildanzei
 
 Beide Stores fragen, ob du als **Händler (Trader)** oder **Nicht-Händler** veröffentlichst.
 
-**Wir veröffentlichen als Händler.** Belegtext ist kostenlos, wird aber von einem Unternehmen herausgegeben und verweist auf dessen Website (Projektseite und Willkommensseite auf rasch.finance). Der Store zeigt die Angaben öffentlich an; sie müssen mit dem Impressum von rasch.finance übereinstimmen:
-
-- **Name:** Alexander Rasch (rasch.finance)
-- **Anschrift:** Eosanderstraße 24, 10587 Berlin, Deutschland
-- **E-Mail:** belegtext@rasch.finance
-- **Telefon:** +49 361 21873622
-- **USt-IdNr.:** DE337364072
+**Wir veröffentlichen als Händler.** Belegtext ist kostenlos, wird aber von einem Unternehmen herausgegeben und verweist auf dessen Website. Die Händlerangaben (Name, Anschrift, E-Mail, Telefon) entsprechen dem [Impressum von rasch.finance](https://rasch.finance/impressum.html) und werden nur in den Dashboards eingetragen, nicht hier.
 
 ## Ablauf
 
 1. Chrome: https://chrome.google.com/webstore/devconsole – einmalig 5 USD Registrierung, dann „Neues Element“ → ZIP hochladen → Einträge ausfüllen → zur Prüfung einreichen.
 2. Edge: https://partner.microsoft.com/dashboard/microsoftedge – kostenlos, gleiches ZIP, gleiche Texte.
-3. Nach Freigabe die Store-Links in README und Community-Post eintragen.
+3. Nach Freigabe die Store-Links in README und auf der Projektseite (rasch.finance/belegtext) eintragen.

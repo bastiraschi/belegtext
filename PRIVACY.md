@@ -26,8 +26,7 @@ Belegtext fordert keine Browser-Berechtigungen an. Der Zugriff auf Webseiten ist
 
 ## Kontakt
 
-rasch.finance – Alexander Rasch
-Eosanderstraße 24, 10587 Berlin
+rasch.finance – Anbieterangaben im [Impressum](https://rasch.finance/impressum.html)
 E-Mail: belegtext@rasch.finance
 Projekt: https://rasch.finance/belegtext/ · Quellcode: https://github.com/bastiraschi/belegtext
 
@@ -37,4 +36,4 @@ Projekt: https://rasch.finance/belegtext/ · Quellcode: https://github.com/basti
 
 Belegtext does not collect, store or transmit any data. It runs only on `duo-belegbildanzeige.apps.datev.de`, reads the text of the document currently displayed (from the PDF text layer or via on-device OCR) entirely within the browser, and overlays it as a selectable layer. No network requests are made; the OCR engine and language model are bundled. No analytics or telemetry. No browser permissions are requested; site access is limited to that one host, which Chrome shows as a notice at installation. Once after installation it opens a short guide at `https://rasch.finance/belegtext/start/`, and the browser opens a feedback page at `https://rasch.finance/belegtext/feedback/` when the extension is removed; only the version number is passed in the address. The privacy policy of rasch.finance applies to these pages.
 
-Contact: rasch.finance – Alexander Rasch, Eosanderstraße 24, 10587 Berlin, Germany · belegtext@rasch.finance
+Contact: rasch.finance (legal notice: https://rasch.finance/impressum.html) · belegtext@rasch.finance
