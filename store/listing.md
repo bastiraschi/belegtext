@@ -52,6 +52,15 @@ HINWEISE
 - **Service Worker:** öffnet nur einmalig nach der Installation die Anleitung und setzt die Feedbackseite für die Deinstallation (`chrome.tabs.create`, `chrome.runtime.setUninstallURL`, beides ohne Berechtigung).
 - **Datennutzung:** Keine der Kategorien ankreuzen (es werden keine Daten erhoben).
 - **Bestätigungen:** alle drei Erklärungen bestätigen (kein Verkauf, keine zweckfremde Nutzung, keine Bonitätsprüfung).
+- **Datenschutzerklärung (URL):** https://github.com/bastiraschi/belegtext/blob/main/PRIVACY.md
+
+## Testanweisungen (Chrome-Reiter „Testanweisungen“, Edge „Hinweise für die Zertifizierung“)
+
+Benutzername und Passwort leer lassen (kein Testzugang möglich). Zusätzliche Anweisungen, Englisch, höchstens 500 Zeichen:
+
+```
+Runs only in the document viewer of DATEV Unternehmen online (duo-belegbildanzeige.apps.datev.de). Login needs a hardware token, so no test account is possible. It overlays a selectable text layer on the shown invoice (PDF text layer or bundled Tesseract OCR). Only access: content script on that host. No data sent, no remote code. Opens a guide on rasch.finance once after install; uninstall opens a feedback page (version only). Code: github.com/bastiraschi/belegtext
+```
 
 ## Händlerstatus (EU-Digital-Services-Act)
 
