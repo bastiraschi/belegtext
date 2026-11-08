@@ -13,7 +13,7 @@ Arbeitssprache Deutsch (Code-Kommentare, UI-Texte, Doku). Keine Emojis. Deutsche
 
 ## Unverhandelbare Invarianten
 
-1. **Keine Browser-Berechtigungen** im Manifest. Hostzugriff nur über `content_scripts.matches` auf `https://duo-belegbildanzeige.apps.datev.de/*`. `chrome.tabs.create` und `chrome.runtime.setUninstallURL` im Service Worker brauchen keine.
+1. **Keine Browser-Berechtigungen** im Manifest. Hostzugriff nur über `content_scripts.matches` auf `https://duo-belegbildanzeige.apps.datev.de/*` (Chrome zeigt dafür bei der Installation einen Zugriffshinweis; in Texten deshalb „Zugriff nur auf die Belegansicht, keine weiteren Berechtigungen“, nie „keine Berechtigungen“). `chrome.tabs.create` und `chrome.runtime.setUninstallURL` im Service Worker brauchen keine.
 2. **Keine Datenübertragung.** Kein fetch/XHR aus der Erweiterung zu Dritten, keine Telemetrie, kein nachgeladener Code (MV3-Regel). OCR-Engine und Sprachmodell liegen gebündelt in `vendor/`. Einzige Verbindung nach außen: `src/background.js` öffnet einmalig nach der Installation `rasch.finance/belegtext/start/?v=<version>` und setzt `rasch.finance/belegtext/feedback/?v=<version>` als Deinstallationsseite – nur die Versionsnummer, nie Daten aus DATEV.
 3. **Keine Werbung oder Markenhinweise in der DATEV-Oberfläche.** Der Verweis auf rasch.finance läuft ausschließlich über Store-Eintrag, Projektseite (`rasch.finance/belegtext/`), Willkommensseite nach Installation, README.
 4. **Nie echte Belege** in Repo, Issues, Screenshots oder Tests. Nur `store/musterbelege/`. Das Repo ist öffentlich: auch keine Mandanten- oder Beraternummern, Zugangsdaten oder DATEV-internen Schnittstellendetails.

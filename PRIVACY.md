@@ -22,7 +22,7 @@ Einmalig nach der Installation öffnet Belegtext die Anleitung `https://rasch.fi
 
 ## Berechtigungen
 
-Belegtext fordert keine Browser-Berechtigungen an. Der Zugriff auf Webseiten ist technisch auf die oben genannte Adresse beschränkt.
+Belegtext fordert keine Browser-Berechtigungen an. Der Zugriff auf Webseiten ist technisch auf die oben genannte Adresse beschränkt; darauf weist Chrome bei der Installation hin („Kann Ihre Daten auf duo-belegbildanzeige.apps.datev.de lesen und ändern“). Die Erweiterung braucht diesen Zugriff, um den Textlayer über den angezeigten Beleg zu legen.
 
 ## Kontakt
 
@@ -35,6 +35,6 @@ Projekt: https://rasch.finance/belegtext/ · Quellcode: https://github.com/basti
 
 # Privacy Policy – Belegtext (English)
 
-Belegtext does not collect, store or transmit any data. It runs only on `duo-belegbildanzeige.apps.datev.de`, reads the text of the document currently displayed (from the PDF text layer or via on-device OCR) entirely within the browser, and overlays it as a selectable layer. No network requests are made; the OCR engine and language model are bundled. No analytics or telemetry. No browser permissions are requested. Once after installation it opens a short guide at `https://rasch.finance/belegtext/start/`, and the browser opens a feedback page at `https://rasch.finance/belegtext/feedback/` when the extension is removed; only the version number is passed in the address. The privacy policy of rasch.finance applies to these pages.
+Belegtext does not collect, store or transmit any data. It runs only on `duo-belegbildanzeige.apps.datev.de`, reads the text of the document currently displayed (from the PDF text layer or via on-device OCR) entirely within the browser, and overlays it as a selectable layer. No network requests are made; the OCR engine and language model are bundled. No analytics or telemetry. No browser permissions are requested; site access is limited to that one host, which Chrome shows as a notice at installation. Once after installation it opens a short guide at `https://rasch.finance/belegtext/start/`, and the browser opens a feedback page at `https://rasch.finance/belegtext/feedback/` when the extension is removed; only the version number is passed in the address. The privacy policy of rasch.finance applies to these pages.
 
 Contact: rasch.finance – Alexander Rasch, Eosanderstraße 24, 10587 Berlin, Germany · belegtext@rasch.finance

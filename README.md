@@ -35,8 +35,8 @@ Formularlinien, Kästchen und Flecken werden herausgefiltert. Es gibt keine Heur
 
 ## Datenschutz und Sicherheit
 
-- **Keine Berechtigungen.** Die Erweiterung fordert keine Chrome-Berechtigung an. Sie läuft ausschließlich im Frame `duo-belegbildanzeige.apps.datev.de`.
-- **Keine Netzwerkzugriffe.** Gearbeitet wird mit dem, was der DATEV-Viewer ohnehin geladen hat. Texterkennung und Sprachmodell sind in der Erweiterung enthalten – Belegdaten verlassen den Rechner nicht.
+- **Nur die Belegansicht.** Die Erweiterung läuft ausschließlich im Frame `duo-belegbildanzeige.apps.datev.de` und fordert keine weiteren Berechtigungen an (kein `permissions`- oder `host_permissions`-Eintrag). Chrome weist bei der Installation darauf hin, dass sie diese eine Seite lesen und ändern darf – das ist der Textlayer über dem Beleg.
+- **Keine Datenübertragung.** Gearbeitet wird mit dem, was der DATEV-Viewer ohnehin geladen hat. Texterkennung und Sprachmodell sind in der Erweiterung enthalten – Belegdaten verlassen den Rechner nicht.
 - **Anleitung und Feedback.** Einmalig nach der Installation öffnet sich die [Anleitung auf rasch.finance](https://rasch.finance/belegtext/start/), beim Entfernen eine kurze Feedbackseite. Übergeben wird nur die Versionsnummer. Sonst öffnet oder sendet die Erweiterung nichts.
 - **Keine Telemetrie, keine externen Dienste, kein nachgeladener Code.**
 - **Nachprüfbar:** Die eigene Logik steht vollständig in `src/belegtext.js` (rund 630 Zeilen, kommentiert), `src/bridge.js` (eine Zeile) und `src/background.js` (Anleitung und Feedbackseite, rund 10 Zeilen). Jede Store-Version entspricht einem Git-Tag in diesem Repository.
