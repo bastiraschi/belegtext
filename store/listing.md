@@ -32,7 +32,7 @@ SO FUNKTIONIERT ES
 
 DATENSCHUTZ
 • Zugriff nur auf die Belegansicht von Unternehmen online, keine weiteren Berechtigungen
-• Keine Datenübertragung – Texterkennung und Sprachmodell sind enthalten
+• Keine Übertragung von Belegdaten – Texterkennung und Sprachmodell sind enthalten
 • Keine Datenspeicherung, keine Telemetrie
 • Einmalig nach der Installation öffnet sich eine kurze Anleitung auf rasch.finance
 • Open Source (MIT): https://github.com/bastiraschi/belegtext

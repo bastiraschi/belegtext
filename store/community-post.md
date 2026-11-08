@@ -37,7 +37,7 @@ Vor dem Posten: Store-Links eintragen, GIF anhängen (nur Musterbeleg).
 >
 > **Datenschutz** – mir war klar, dass das die erste Frage ist:
 > - Die Erweiterung läuft nur in der Belegansicht von Unternehmen online und fordert keine weiteren Berechtigungen an. Chrome zeigt bei der Installation an, dass sie diese eine Seite lesen darf – mehr Zugriff gibt es nicht.
-> - Sie sendet keine Daten. Die Texterkennung samt Sprachmodell ist enthalten, Belegdaten verlassen den Rechner nicht.
+> - Sie sendet keine Belegdaten. Die Texterkennung samt Sprachmodell ist enthalten, Belegdaten verlassen den Rechner nicht.
 > - Keine Speicherung, keine Telemetrie. Der Code ist offen und überschaubar; jede Store-Version entspricht einem Stand auf GitHub.
 >
 > **Grenzen**
