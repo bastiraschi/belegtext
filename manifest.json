@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Belegtext",
+  "version": "1.0.0",
+  "description": "Text in der Belegansicht von DATEV Unternehmen online markieren und kopieren – auch bei Scans. Inoffiziell, läuft lokal.",
+  "homepage_url": "https://rasch.finance/belegtext/",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://duo-belegbildanzeige.apps.datev.de/*"
+      ],
+      "js": [
+        "src/bridge.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://duo-belegbildanzeige.apps.datev.de/*"
+      ],
+      "js": [
+        "src/belegtext.js"
+      ],
+      "css": [
+        "src/belegtext.css"
+      ],
+      "all_frames": true,
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "vendor/*",
+        "vendor/core/*",
+        "vendor/lang/*"
+      ],
+      "matches": [
+        "https://duo-belegbildanzeige.apps.datev.de/*"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+/* Textlayer – angelehnt an pdf_viewer.css von pdf.js (Apache-2.0) */
+.belegtext-layer {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  z-index: 5;
+  line-height: 1;
+  text-align: initial;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  -webkit-user-select: text;
+  user-select: text;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+
+.belegtext-layer:focus {
+  outline: none;
+}
+
+.belegtext-layer :is(span, br) {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+}
+
+.belegtext-layer span.markedContent {
+  top: 0;
+  height: 0;
+}
+
+.belegtext-layer ::selection {
+  background: rgba(0, 100, 255, 0.28);
+}
+
+.belegtext-layer br::selection {
+  background: transparent;
+}
+
+.belegtext-status {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 7;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(31, 41, 55, 0.85);
+  color: #fff;
+  font: 12px/1.3 system-ui, sans-serif;
+  pointer-events: none;
+}
+
+/* DATEVs eigene Erkennungskästen (grün/orange) bleiben über dem Textlayer bedienbar. */
+.canvas-with-overlays .ocr-wrapper:not(.ocr-no-text) {
+  z-index: 6;
+}
+
+.belegtext-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 2147483647;
+  max-width: 70vw;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: #1f2937;
+  color: #fff;
+  font: 13px/1.3 system-ui, sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.belegtext-toast--visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
