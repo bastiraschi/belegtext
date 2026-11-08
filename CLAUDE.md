@@ -66,9 +66,9 @@ DATEVs eigene Erkennungskästen (grün/orange, `.ocr-wrapper:not(.ocr-no-text)`)
 
 ## Release
 
-`store/listing.md` ist die einzige Quelle für alle Angaben in den Store-Dashboards (Beschreibung, Datenschutzpraktiken, Testanweisungen, Händlerangaben). Wer Verhalten, Berechtigungen, Netzwerkzugriffe oder Bedienung ändert, passt im selben Change `store/listing.md`, README, PRIVACY.md und die Landingpage (`belegtext/index.html` im Website-Repo, inkl. FAQ) an und überträgt die Änderungen beim nächsten Upload in beide Dashboards.
+`store/listing.md` ist die einzige Quelle für alle Texte in den Store-Dashboards (Beschreibung, Datenschutzpraktiken, Testanweisungen, Händlerangaben), `store/screenshots.md` für die Screenshot-Motive. Wer Verhalten, Berechtigungen, Netzwerkzugriffe oder Bedienung ändert, passt im selben Change `store/listing.md`, bei sichtbaren Änderungen `store/screenshots.md`, README, PRIVACY.md und die Landingpage (`belegtext/index.html` im Website-Repo, inkl. FAQ) an und überträgt die Änderungen beim nächsten Upload in beide Dashboards.
 
 1. Version in `manifest.json` erhöhen, `CHANGELOG.md` ergänzen.
 2. `./scripts/build.sh` → `dist/belegtext-<version>-store.zip`.
 3. Git-Tag `v<version>`, GitHub-Release mit dem ZIP.
-4. Store-Uploads (Erstveröffentlichung manuell durch Sebastian in den Dashboards; Updates können später per Store-API automatisiert werden). Dabei mit `store/listing.md` abgleichen: Beschreibung, Datenschutz-Reiter, Testanweisungen, Screenshots – stimmt alles noch zur neuen Version?
+4. Store-Uploads (Erstveröffentlichung manuell durch Sebastian in den Dashboards; Updates können später per Store-API automatisiert werden). Dabei abgleichen: Beschreibung, Datenschutz-Reiter und Testanweisungen mit `store/listing.md`, Screenshots mit `store/screenshots.md` – stimmt alles noch zur neuen Version?
