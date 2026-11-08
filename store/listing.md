@@ -62,7 +62,7 @@ Beide Stores fragen, ob du als **Händler (Trader)** oder **Nicht-Händler** ver
 - **Name:** Alexander Rasch (rasch.finance)
 - **Anschrift:** Eosanderstraße 24, 10587 Berlin, Deutschland
 - **E-Mail:** belegtext@rasch.finance
-- **Telefon:** *fehlt noch* – vorher ins Impressum von rasch.finance aufnehmen, dann hier eintragen
+- **Telefon:** +49 361 21873622
 - **USt-IdNr.:** DE337364072
 
 ## Ablauf
