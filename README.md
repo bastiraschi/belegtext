@@ -2,7 +2,7 @@
 
 Ein Projekt von [rasch.finance](https://rasch.finance/belegtext/).
 
-Chrome- und Edge-Erweiterung, die Text in der Belegansicht von **DATEV Unternehmen online** markier- und kopierbar macht – Rechnungsnummern, IBANs, Beträge, Fahrgestellnummern, Namen. Funktioniert bei digitalen PDFs und bei Scans. Kein Abtippen, kein Umweg über Screenshot-OCR.
+Chrome- und Edge-Erweiterung, die Text in der Belegansicht von **DATEV Unternehmen online (DUo)** markier- und kopierbar macht – Rechnungsnummern, IBANs, Beträge, Fahrgestellnummern, Namen. Funktioniert bei digitalen PDFs und bei Scans. Kein Abtippen, kein Umweg über Screenshot-OCR.
 
 > Inoffiziell. Keine Verbindung zur DATEV eG. „DATEV“ ist eine Marke der DATEV eG und wird hier nur beschreibend verwendet.
 

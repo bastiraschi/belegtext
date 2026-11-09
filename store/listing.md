@@ -18,7 +18,7 @@ Gilt für Chrome Web Store und Microsoft Edge Add-ons. Hochgeladen wird `belegte
 ## Ausführliche Beschreibung
 
 ```
-Schluss mit Abtippen: Belegtext macht Text in der Belegansicht von DATEV Unternehmen online markier- und kopierbar.
+Schluss mit Abtippen: Belegtext macht Text in der Belegansicht von DATEV Unternehmen online (DUo) markier- und kopierbar.
 
 Rechnungsnummern, IBANs, Beträge, Kundennummern, Lieferantennamen – per Doppelklick kopiert, per Ziehen markiert. Funktioniert bei digitalen PDF-Rechnungen und bei gescannten Belegen.
 
