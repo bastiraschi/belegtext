@@ -8,8 +8,8 @@ Chrome- und Edge-Erweiterung, die Text in der Belegansicht von **DATEV Unternehm
 
 ## Installation
 
-- **Chrome:** Chrome Web Store – *Link folgt nach Freigabe*
-- **Edge:** Microsoft Edge Add-ons – *Link folgt nach Freigabe*
+- **Chrome:** [Belegtext im Chrome Web Store](https://chromewebstore.google.com/detail/belegtext/cfflgepphklkecaeemcmlbkokeojidgh)
+- **Edge:** Microsoft Edge Add-ons – *Link folgt nach Freigabe*. Bis dahin lässt sich Belegtext auch in Edge aus dem Chrome Web Store installieren („Erweiterungen aus anderen Stores zulassen“).
 - **Manuell:** Release-ZIP herunterladen und entpacken, `chrome://extensions` öffnen, Entwicklermodus einschalten, **Entpackte Erweiterung laden** und den Ordner wählen. Eine bereits geöffnete DATEV-Seite einmal neu laden.
 
 ## Bedienung
