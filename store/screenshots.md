@@ -18,4 +18,4 @@ Chrome verlangt mindestens einen, besser drei bis fünf Screenshots in **1280×8
 3. **Scan:** Gescannte Musterrechnung, Doppelklick auf die IBAN-Gruppe oder den Rechnungsbetrag `388,18 €`.
 4. **Texterkennung läuft:** Gescannte Musterrechnung direkt nach dem Öffnen, Hinweis „Texterkennung …“ oben rechts.
 
-Optional ein kurzes GIF (5–10 Sekunden) von Motiv 1 für die Projektseite.
+Optional ein kurzes GIF (5–10 Sekunden) von Motiv 1 für Community-Beiträge. Die Projektseite braucht keins: Sie zeigt eine nachgebaute, interaktive Vorschau mit dem Musterbeleg.
