@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Belegtext",
-  "version": "1.0.0",
-  "description": "Text in der Belegansicht von DATEV Unternehmen online markieren und kopieren – auch bei Scans. Inoffiziell, läuft lokal.",
+  "name": "Belegtext für DATEV Unternehmen online (DUo)",
+  "version": "1.0.1",
+  "description": "Text in der Belegansicht von DATEV Unternehmen online (DUo) markieren und kopieren – auch bei Scans. Inoffiziell, läuft lokal.",
   "homepage_url": "https://rasch.finance/belegtext/",
   "icons": {
     "16": "icons/icon-16.png",
