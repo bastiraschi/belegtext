@@ -1,5 +1,9 @@
 # Änderungen
 
+## 1.0.1 – 2026-11-18
+
+- Name im Store: „Belegtext für DATEV Unternehmen online (DUo)“, Kurzbeschreibung nennt DUo – damit die Erweiterung auch bei der Suche nach „DUo“ gefunden wird
+
 ## 1.0.0 – 2026-11-08
 
 Erste öffentliche Version.

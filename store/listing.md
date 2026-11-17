@@ -1,12 +1,12 @@
 # Store-Einträge
 
-Gilt für Chrome Web Store und Microsoft Edge Add-ons. Hochgeladen wird `belegtext-1.0.0-store.zip` (Manifest liegt im ZIP-Wurzelverzeichnis).
+Gilt für Chrome Web Store und Microsoft Edge Add-ons. Hochgeladen wird `belegtext-1.0.1-store.zip` (Manifest liegt im ZIP-Wurzelverzeichnis).
 
 ## Grunddaten
 
-- **Name:** Belegtext
+- **Name (max. 75 Zeichen, steht im Manifest):** Belegtext für DATEV Unternehmen online (DUo)
 - **Kurzbeschreibung (max. 132 Zeichen, steht im Manifest):**
-  Text in der Belegansicht von DATEV Unternehmen online markieren und kopieren – auch bei Scans. Inoffiziell, läuft lokal.
+  Text in der Belegansicht von DATEV Unternehmen online (DUo) markieren und kopieren – auch bei Scans. Inoffiziell, läuft lokal.
 - **Kategorie:** Chrome: „Produktivität → Workflow und Planung“; Edge: „Produktivität“
 - **Sprache:** Deutsch
 - **Herausgeber:** rasch.finance
@@ -67,6 +67,8 @@ Runs only in the document viewer of DATEV Unternehmen online (duo-belegbildanzei
 Beide Stores fragen, ob du als **Händler (Trader)** oder **Nicht-Händler** veröffentlichst.
 
 **Wir veröffentlichen als Händler.** Belegtext ist kostenlos, wird aber von einem Unternehmen herausgegeben und verweist auf dessen Website. Die Händlerangaben (Name, Anschrift, E-Mail, Telefon) entsprechen dem [Impressum von rasch.finance](https://rasch.finance/impressum.html) und werden nur in den Dashboards eingetragen, nicht hier.
+
+Im Chrome Web Store kommen Telefonnummer und Anschrift aus der Händlerverifizierung, nicht aus einem Kontaktfeld. Die Telefonnummer wird per SMS bestätigt und muss deshalb SMS-fähig sein. Ändern lassen sich Name, Telefonnummer und Land nur über eine neue Verifizierung: Händlerstatus kurz auf „Nicht-Händler“ und wieder auf „Händler“ stellen.
 
 ## Ablauf
 
