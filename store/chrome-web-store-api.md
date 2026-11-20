@@ -1,6 +1,6 @@
 # Chrome Web Store API – einmalige Einrichtung
 
-Die Action `.github/workflows/release.yml` lädt beim Push eines Tags `v<version>` das Store-ZIP über die Chrome Web Store API (v2) hoch, reicht es zur Prüfung ein und legt danach das GitHub-Release mit dem ZIP an. Nach der Freigabe durch Google geht die Version automatisch live.
+Die Action `.github/workflows/release.yml` wird per Knopf gestartet. Sie lädt das Store-ZIP über die Chrome Web Store API (v2) hoch, reicht es zur Prüfung ein und legt danach Tag `v<version>` und GitHub-Release mit dem ZIP an. Nach der Freigabe durch Google geht die Version automatisch live.
 
 Die API setzt nur das Paket. Beschreibung, Datenschutz-Reiter, Testanweisungen und Screenshots bleiben Handarbeit im Dashboard (Quelle: `store/listing.md`, `store/screenshots.md`). Edge Add-ons ist nicht angebunden und bleibt manuell.
 
@@ -59,12 +59,7 @@ Die Werte nirgends sonst ablegen (das Repo ist öffentlich).
 
 1. Version in `manifest.json` erhöhen, `CHANGELOG.md` ergänzen (Abschnitt `## <version> – <datum>`), mergen.
 2. Haben sich Texte in `store/listing.md` geändert: vorher im Dashboard eintragen und **speichern**, nicht einreichen. Die Action reicht Paket und gespeicherte Texte gemeinsam zur Prüfung ein.
-3. Tag auf `main` setzen und pushen:
-   ```
-   git checkout main && git pull
-   git tag v1.1.0
-   git push origin v1.1.0
-   ```
-4. Unter **Actions → Release** den Lauf verfolgen. Die Zusammenfassung zeigt den Store-Status (`PENDING_REVIEW` = in Prüfung).
+3. https://github.com/bastiraschi/belegtext/actions/workflows/release.yml öffnen → rechts **Run workflow** → im Fenster Branch `main` lassen → grünes **Run workflow**.
+4. Der Lauf erscheint nach ein paar Sekunden in der Liste. Grüner Haken = eingereicht; die Zusammenfassung zeigt den Store-Status (`PENDING_REVIEW` = in Prüfung).
 
-Die Action bricht ab, wenn der Tag nicht zur Version in `manifest.json` passt, der CHANGELOG-Abschnitt fehlt, noch eine ältere Version in Prüfung ist oder die Version im Store nicht höher ist als die veröffentlichte.
+Die Action bricht ab, wenn sie nicht auf `main` läuft, die Version aus `manifest.json` schon einen Tag hat, der CHANGELOG-Abschnitt fehlt, noch eine ältere Version in Prüfung ist oder die Version im Store nicht höher ist als die veröffentlichte.
