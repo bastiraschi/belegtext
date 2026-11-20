@@ -47,7 +47,7 @@ test('Lesefehler in einer Ziffern-IBAN wird korrigiert', () => {
 test('falsche Prüfziffer wird gemeldet, Text bleibt', () => {
   const { text, notes } = checkValues('DE89 3704 0044 0532 0130 01');
   assert.equal(text, 'DE89 3704 0044 0532 0130 01');
-  assert.deepEqual([...notes.map((n) => n.message)], ['IBAN-Prüfziffer falsch, bitte prüfen']);
+  assert.deepEqual([...notes.map((n) => n.message)], ['IBAN-Prüfziffer falsch']);
 });
 
 test('kein Hinweis bei Teilstücken und Fließtext', () => {
@@ -59,25 +59,25 @@ test('kein Hinweis bei Teilstücken und Fließtext', () => {
 
 test('USt-IdNr.', () => {
   assert.deepEqual(messages('USt-IdNr. DE 136695976'), ['USt-IdNr. geprüft']);
-  assert.deepEqual(messages('DE123456789'), ['USt-IdNr.-Prüfziffer falsch, bitte prüfen']);
+  assert.deepEqual(messages('DE123456789'), ['USt-IdNr.-Prüfziffer falsch']);
 });
 
 test('FIN mit gültiger Prüfziffer', () => {
   assert.deepEqual(messages('FIN 1M8GDM9AXKP042788'), ['FIN geprüft']);
 });
 
-test('europäische FIN ohne Prüfziffer gilt nicht als falsch', () => {
-  assert.deepEqual(messages('WVWZZZ1JZXW000001'), ['FIN-Format stimmt']);
+test('europäische FIN ohne Prüfziffer: kein Hinweis', () => {
+  assert.deepEqual(messages('WVWZZZ1JZXW000001'), []);
 });
 
 test('nordamerikanische FIN mit falscher Prüfziffer wird gemeldet', () => {
-  assert.deepEqual(messages('1M8GDM9A1KP042788'), ['FIN-Prüfziffer falsch, bitte prüfen']);
+  assert.deepEqual(messages('1M8GDM9A1KP042788'), ['FIN-Prüfziffer falsch']);
 });
 
 test('O, Q und I in einer FIN werden korrigiert', () => {
   const { text, notes } = checkValues('WVWZZZ1JZXW0OO0O1');
   assert.equal(text, 'WVWZZZ1JZXW000001');
-  assert.deepEqual([...notes.map((n) => n.message)], ['FIN korrigiert (Lesefehler), bitte prüfen', 'FIN-Format stimmt']);
+  assert.deepEqual([...notes.map((n) => n.message)], ['FIN korrigiert']);
   assert.equal(checkValues('1M8GDM9AXKPO42788').text, '1M8GDM9AXKP042788');
 });
 
@@ -92,12 +92,12 @@ test('kein FIN-Hinweis bei anderen Zeichenketten', () => {
 test('doppelt gelesene 0 in einer FIN (Schreibmaschinenschrift) wird entfernt, wenn die Prüfziffer stimmt', () => {
   const { text, notes } = checkValues('VIN: SALAA1AB1MA0O00105');
   assert.equal(text, 'VIN: SALAA1AB1MA000105');
-  assert.deepEqual([...notes.map((n) => n.message)], ['FIN korrigiert (Zeichen doppelt gelesen), bitte prüfen', 'FIN geprüft']);
+  assert.deepEqual([...notes.map((n) => n.message)], ['FIN korrigiert', 'FIN geprüft']);
 });
 
 test('18 Zeichen ohne passende Prüfziffer: nur Hinweis, Text bleibt', () => {
   const { text, notes } = checkValues('WVWZZZ1J5XW0O00106');
   assert.equal(text, 'WVWZZZ1J5XW0O00106');
-  assert.deepEqual([...notes.map((n) => n.message)], ['FIN hat 18 Zeichen, ein Zeichen doppelt gelesen? Bitte prüfen']);
+  assert.deepEqual([...notes.map((n) => n.message)], ['FIN unsicher, bitte prüfen']);
   assert.deepEqual(messages('AB12345678901234CD'), []);
 });

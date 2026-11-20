@@ -177,9 +177,9 @@ const BelegtextPruefung = (() => {
           : original;
         if (fixed !== original && /^[A-Z]{2}[\d ]+$/.test(fixed) && ibanValid(fixed.replace(/ /g, ''))) {
           replacement = fixed;
-          notes.push({ ok: false, message: 'IBAN korrigiert (Lesefehler), bitte prüfen' });
+          notes.push({ ok: false, message: 'IBAN korrigiert' });
         } else {
-          notes.push({ ok: false, message: 'IBAN-Prüfziffer falsch, bitte prüfen' });
+          notes.push({ ok: false, message: 'IBAN-Prüfziffer falsch' });
         }
       }
       result += text.slice(last, match.index) + replacement;
@@ -190,7 +190,7 @@ const BelegtextPruefung = (() => {
     for (const match of result.matchAll(VAT_ID)) {
       notes.push(vatIdValid(match[1])
         ? { ok: true, message: 'USt-IdNr. geprüft' }
-        : { ok: false, message: 'USt-IdNr.-Prüfziffer falsch, bitte prüfen' });
+        : { ok: false, message: 'USt-IdNr.-Prüfziffer falsch' });
     }
 
     result = result.replace(VIN_DOUBLED, (token) => {
@@ -205,20 +205,20 @@ const BelegtextPruefung = (() => {
       if (!candidates.size) return token;
       const valid = [...candidates].filter(vinCheckDigitValid);
       if (valid.length === 1) {
-        notes.push({ ok: false, message: 'FIN korrigiert (Zeichen doppelt gelesen), bitte prüfen' });
+        notes.push({ ok: false, message: 'FIN korrigiert' });
         return valid[0];
       }
-      notes.push({ ok: false, message: 'FIN hat 18 Zeichen, ein Zeichen doppelt gelesen? Bitte prüfen' });
+      notes.push({ ok: false, message: 'FIN unsicher, bitte prüfen' });
       return token;
     });
 
     result = result.replace(VIN_CANDIDATE, (token) => {
       const vin = token.replace(/[IOQ]/g, (c) => VIN_FIX[c]);
       if (!looksLikeVin(token, vin)) return token;
-      if (vin !== token) notes.push({ ok: false, message: 'FIN korrigiert (Lesefehler), bitte prüfen' });
+      if (vin !== token) notes.push({ ok: false, message: 'FIN korrigiert' });
+      // Europäische FIN ohne passende Prüfziffer: kein Hinweis, sie ist dort nicht Pflicht.
       if (vinCheckDigitValid(vin)) notes.push({ ok: true, message: 'FIN geprüft' });
-      else if (VIN_CHECK_DIGIT_REQUIRED.test(vin)) notes.push({ ok: false, message: 'FIN-Prüfziffer falsch, bitte prüfen' });
-      else notes.push({ ok: true, message: 'FIN-Format stimmt' });
+      else if (VIN_CHECK_DIGIT_REQUIRED.test(vin)) notes.push({ ok: false, message: 'FIN-Prüfziffer falsch' });
       return vin;
     });
     return { text: result, notes };
