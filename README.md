@@ -19,6 +19,7 @@ Chrome- und Edge-Erweiterung, die Text in der Belegansicht von **DATEV Unternehm
 - **Ziehen** markiert beliebige Textstellen, auch über mehrere Zeilen, und kopiert beim Loslassen.
 - **Strg+C** funktioniert zusätzlich wie gewohnt.
 - Ein kurzer Hinweis „Kopiert: …“ bestätigt jeden Kopiervorgang. Kopierter Text wird bereinigt (keine angehängten oder doppelten Leerzeichen).
+- **Feedback:** Ein Klick auf das Belegtext-Symbol in der Symbolleiste öffnet ein kleines Menü („Etwas klappt nicht“, „Idee“, „Gefällt mir“). Tipp: Symbol über das Puzzle-Menü anheften.
 - Bei **Scans und Seitenbildern** erscheint oben rechts kurz „Texterkennung …“. Beim ersten Scan einer Sitzung dauert das einige Sekunden, danach meist 2–4 Sekunden pro Seite.
 
 ## Wie es funktioniert
@@ -37,9 +38,9 @@ Formularlinien, Kästchen und Flecken werden herausgefiltert. Es gibt keine Heur
 
 - **Nur die Belegansicht.** Die Erweiterung läuft ausschließlich im Frame `duo-belegbildanzeige.apps.datev.de` und fordert keine weiteren Berechtigungen an (kein `permissions`- oder `host_permissions`-Eintrag). Chrome weist bei der Installation darauf hin, dass sie diese eine Seite lesen und ändern darf – das ist der Textlayer über dem Beleg.
 - **Keine Übertragung von Belegdaten.** Gearbeitet wird mit dem, was der DATEV-Viewer ohnehin geladen hat. Texterkennung und Sprachmodell sind in der Erweiterung enthalten – Belegdaten verlassen den Rechner nicht.
-- **Anleitung und Feedback.** Einmalig nach der Installation öffnet sich die [Anleitung auf rasch.finance](https://rasch.finance/belegtext/start/), beim Entfernen eine kurze Feedbackseite. Übergeben wird nur die Versionsnummer. Sonst öffnet oder sendet die Erweiterung nichts.
+- **Anleitung und Feedback.** Einmalig nach der Installation öffnet sich die [Anleitung auf rasch.finance](https://rasch.finance/belegtext/start/), beim Entfernen eine kurze Feedbackseite. Das Popup am Symbol öffnet auf Klick dieselbe Feedbackseite in einem neuen Tab; abgeschickt wird erst dort. Übergeben werden nur Versionsnummer und gewählte Kategorie. Sonst öffnet oder sendet die Erweiterung nichts.
 - **Keine Telemetrie, keine externen Dienste, kein nachgeladener Code.**
-- **Nachprüfbar:** Die eigene Logik steht vollständig in `src/belegtext.js` (rund 630 Zeilen, kommentiert), `src/bridge.js` (eine Zeile) und `src/background.js` (Anleitung und Feedbackseite, rund 10 Zeilen). Jede Store-Version entspricht einem Git-Tag in diesem Repository.
+- **Nachprüfbar:** Die eigene Logik steht vollständig in `src/belegtext.js` (rund 630 Zeilen, kommentiert), `src/bridge.js` (eine Zeile) `src/background.js` (Anleitung und Feedbackseite, rund 10 Zeilen) und `src/popup.js` (Popup am Symbol, rund 25 Zeilen). Jede Store-Version entspricht einem Git-Tag in diesem Repository.
 
 Datenschutzerklärung: [PRIVACY.md](PRIVACY.md)
 
@@ -78,7 +79,7 @@ sha256sum tesseract.js-7.0.0/package/dist/tesseract.min.js \
 
 ## Fehler melden und Feedback
 
-Bitte über [GitHub Issues](https://github.com/bastiraschi/belegtext/issues) oder per E-Mail an [belegtext@rasch.finance](mailto:belegtext@rasch.finance). **Keine echten Belege, Mandantendaten oder Screenshots davon anhängen.** Für Beispiele eignen sich die Musterbelege in `store/musterbelege/`.
+Am einfachsten über das Belegtext-Symbol in der Symbolleiste. Alternativ über [GitHub Issues](https://github.com/bastiraschi/belegtext/issues) oder per E-Mail an [belegtext@rasch.finance](mailto:belegtext@rasch.finance). **Keine echten Belege, Mandantendaten oder Screenshots davon anhängen.** Für Beispiele eignen sich die Musterbelege in `store/musterbelege/`.
 
 Hilfreich für Fehlermeldungen: Meldungen aus der Entwicklerkonsole (F12) mit dem Präfix `[Belegtext]`. Die Belegansicht läuft in einem eingebetteten Frame – in der Konsole oben links im Kontext-Auswahlfeld `duo-belegbildanzeige.apps.datev.de` wählen.
 

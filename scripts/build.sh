@@ -6,6 +6,7 @@ version=$(node -p "require('./manifest.json').version")
 node --check src/belegtext.js
 node --check src/bridge.js
 node --check src/background.js
+node --check src/popup.js
 mkdir -p dist
 out="dist/belegtext-${version}-store.zip"
 rm -f "$out"

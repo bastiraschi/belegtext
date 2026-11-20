@@ -1,5 +1,9 @@
 # Änderungen
 
+## 1.1.0 – 2026-11-20
+
+- Popup am Belegtext-Symbol: Feedback in drei Kategorien („Etwas klappt nicht“, „Idee“, „Gefällt mir“) und Link zur Anleitung. Öffnet das Formular auf rasch.finance in einem neuen Tab; das Popup sendet nichts und braucht keine Berechtigung
+
 ## 1.0.1 – 2026-11-18
 
 - Name im Store: „Belegtext für DATEV Unternehmen online (DUo)“, Kurzbeschreibung nennt DUo – damit die Erweiterung auch bei der Suche nach „DUo“ gefunden wird
