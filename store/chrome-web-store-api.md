@@ -19,10 +19,9 @@ Das Google-Konto, dem Belegtext im Chrome Web Store gehört, hat die Bestätigun
 ## 3. OAuth-Zustimmungsbildschirm
 
 1. Menü → **APIs & Dienste** → **OAuth-Zustimmungsbildschirm** (heißt teils „Google Auth Platform“) → **Jetzt starten**.
-2. App-Name `Belegtext Release`, Support-E-Mail: das Store-Konto. Zielgruppe **Extern**. Kontakt-E-Mail eintragen, Richtlinie bestätigen, **Erstellen**.
-3. **Zielgruppe** → **App veröffentlichen** → bestätigen (Status „In Produktion“).
+2. App-Name `Belegtext Release`, Support-E-Mail: das Store-Konto. Zielgruppe **Intern** (rasch.finance ist ein Google Workspace und das Cloud-Projekt liegt in dieser Organisation). Kontakt-E-Mail eintragen, Richtlinie bestätigen, **Erstellen**.
 
-Wichtig: Im Status „Testen“ verfällt das Refresh-Token nach 7 Tagen, und die Action bricht beim nächsten Release ab. „In Produktion“ braucht für den Eigengebrauch keine Google-Überprüfung; beim Anmelden in Schritt 5 erscheint dafür einmal „Google hat diese App nicht überprüft“ → **Erweitert** → **Weiter zu Belegtext Release**.
+„Intern“ braucht keine Veröffentlichung und keine Google-Überprüfung, und das Refresh-Token verfällt nicht. Voraussetzung: Das Konto, dem Belegtext im Chrome Web Store gehört, ist ein Konto dieses Workspace.
 
 ## 4. OAuth-Client
 
@@ -36,7 +35,7 @@ Wichtig: Im Status „Testen“ verfällt das Refresh-Token nach 7 Tagen, und di
 1. https://developers.google.com/oauthplayground öffnen.
 2. Zahnrad oben rechts → **Use your own OAuth credentials** anhaken → Client-ID und Clientschlüssel aus Schritt 4 eintragen.
 3. Links unten ins Feld „Input your own scopes“: `https://www.googleapis.com/auth/chromewebstore` → **Authorize APIs**.
-4. Mit dem Store-Konto anmelden und zustimmen (Warnung siehe Schritt 3).
+4. Mit dem Store-Konto anmelden und zustimmen.
 5. **Exchange authorization code for tokens** → den **Refresh token** kopieren.
 
 ## 6. Publisher-ID
