@@ -74,6 +74,6 @@ Stehen in `src/pruefung.js`. Messen mit `npm run messen` (Musterrechnung in fün
 `store/listing.md` ist die einzige Quelle für alle Texte in den Store-Dashboards (Beschreibung, Datenschutzpraktiken, Testanweisungen, Händlerangaben), `store/screenshots.md` für die Screenshot-Motive. Wer Verhalten, Berechtigungen, Netzwerkzugriffe oder Bedienung ändert, passt im selben Change `store/listing.md`, bei sichtbaren Änderungen `store/screenshots.md`, README, PRIVACY.md und die Landingpage (`belegtext/index.html` im Website-Repo, inkl. FAQ) an und überträgt die Änderungen beim nächsten Upload in beide Dashboards.
 
 1. Version in `manifest.json` erhöhen, `CHANGELOG.md` ergänzen.
-2. `./scripts/build.sh` → `dist/belegtext-<version>-store.zip`.
-3. Git-Tag `v<version>`, GitHub-Release mit dem ZIP.
-4. Store-Uploads (Erstveröffentlichung manuell in den Dashboards; Updates können später per Store-API automatisiert werden). Dabei abgleichen: Beschreibung, Datenschutz-Reiter und Testanweisungen mit `store/listing.md`, Screenshots mit `store/screenshots.md` – stimmt alles noch zur neuen Version?
+2. Geänderte Store-Texte vorher im Chrome-Dashboard eintragen und speichern (nicht einreichen): Beschreibung, Datenschutz-Reiter und Testanweisungen mit `store/listing.md`, Screenshots mit `store/screenshots.md` abgleichen. Die API setzt nur das Paket.
+3. Nach dem Merge Git-Tag `v<version>` auf `main` pushen. `.github/workflows/release.yml` baut mit `./scripts/build.sh` das ZIP `dist/belegtext-<version>-store.zip`, lädt es über die Chrome Web Store API (v2, `scripts/chrome-store-upload.sh`) hoch, reicht es zur Prüfung ein und legt das GitHub-Release mit dem ZIP an. Einrichtung der Secrets: `store/chrome-web-store-api.md`.
+4. Edge Add-ons manuell im Partner Center hochladen, Texte ebenso abgleichen.

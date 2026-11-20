@@ -1,0 +1,55 @@
+# Release: Tag v<version> pushen → Paket bauen, im Chrome Web Store hochladen und
+# zur Prüfung einreichen, GitHub-Release mit dem ZIP anlegen.
+# Einrichtung der Secrets: store/chrome-web-store-api.md
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      CWS_ITEM_ID: cfflgepphklkecaeemcmlbkokeojidgh
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Tag gegen manifest.json prüfen
+        run: |
+          version=$(node -p "require('./manifest.json').version")
+          if [ "${GITHUB_REF_NAME}" != "v${version}" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} passt nicht zu manifest.json (${version})"
+            exit 1
+          fi
+          grep -q "^## ${version} " CHANGELOG.md || { echo "::error::CHANGELOG.md hat keinen Abschnitt für ${version}"; exit 1; }
+          echo "VERSION=${version}" >> "$GITHUB_ENV"
+
+      - name: Paket bauen
+        run: echo "ZIP=$(./scripts/build.sh)" >> "$GITHUB_ENV"
+
+      - name: Chrome Web Store – hochladen und einreichen
+        env:
+          CWS_CLIENT_ID: ${{ secrets.CWS_CLIENT_ID }}
+          CWS_CLIENT_SECRET: ${{ secrets.CWS_CLIENT_SECRET }}
+          CWS_REFRESH_TOKEN: ${{ secrets.CWS_REFRESH_TOKEN }}
+          CWS_PUBLISHER_ID: ${{ secrets.CWS_PUBLISHER_ID }}
+        run: ./scripts/chrome-store-upload.sh "$ZIP"
+
+      - name: GitHub-Release anlegen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          awk -v v="$VERSION" '$0 ~ "^## " v " " {f=1; next} /^## / {f=0} f' CHANGELOG.md > notes.md
+          gh release create "$GITHUB_REF_NAME" "$ZIP" --title "Belegtext ${VERSION}" --notes-file notes.md
