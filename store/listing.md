@@ -27,7 +27,7 @@ SO FUNKTIONIERT ES
 • DATEVs grüne und orange Erkennungskästen bleiben bedienbar
 • Ziehen markiert beliebige Stellen, auch über mehrere Zeilen, und kopiert beim Loslassen
 • Strg+C funktioniert zusätzlich wie gewohnt
-• IBAN und USt-IdNr. werden beim Kopieren an der Prüfziffer geprüft – mit Warnung, wenn etwas nicht stimmt
+• IBAN, USt-IdNr. und Fahrgestellnummer (FIN) werden beim Kopieren geprüft – mit Warnung, wenn etwas nicht stimmt
 • Digitale PDFs: Die im PDF vorhandene Textebene wird über den Beleg gelegt
 • Scans und Belegbilder: Der Text wird lokal per Texterkennung (Tesseract) erkannt
 
