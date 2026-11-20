@@ -71,6 +71,16 @@ const BelegtextPruefung = (() => {
   /* Möglicher IBAN-Anfang: Ländercode, danach zwei (ggf. verlesene) Prüfziffern. */
   const IBAN_START = /(?<![\p{L}\p{N}])([A-Z]{2})(?=[\dOoIlZSB]{2})/gu;
   const VAT_ID = /(?<![\p{L}\p{N}])DE ?([1-9]\d{8})(?![\p{L}\p{N}])/gu;
+  /* FIN/VIN (ISO 3779): 17 Zeichen aus Ziffern und Großbuchstaben. I, O und Q kommen nicht vor;
+     liest die Texterkennung sie dort, ist es ein Lesefehler für 1 bzw. 0. Erkannt wird eine FIN
+     nur am Muster: eine Zeichenkette aus genau 17 Zeichen mit Buchstaben und Ziffern. */
+  const VIN_CANDIDATE = /(?<![\p{L}\p{N}])[A-Z0-9]{17}(?![\p{L}\p{N}])/gu;
+  const VIN_FIX = { I: '1', O: '0', Q: '0' };
+  const VIN_WEIGHTS = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
+  const VIN_LETTER_VALUE = 'A1B2C3D4E5F6G7H8J1K2L3M4N5P7R9S2T3U4V5W6X7Y8Z9';
+  /* In Nordamerika (Herstellercode beginnt mit 1–5) ist die Prüfziffer an Stelle 9 Pflicht,
+     in Europa nicht – dort ist eine abweichende Prüfziffer kein Fehler. */
+  const VIN_CHECK_DIGIT_REQUIRED = /^[1-5]/;
 
   function ibanValid(iban) {
     const rearranged = iban.slice(4) + iban.slice(0, 4);
@@ -94,6 +104,28 @@ const BelegtextPruefung = (() => {
     return check === Number(digits[8]);
   }
 
+  /** Prüfziffer an Stelle 9 (gewichtete Summe modulo 11, 10 wird zu X). */
+  function vinCheckDigitValid(vin) {
+    let sum = 0;
+    for (let i = 0; i < 17; i++) {
+      const char = vin[i];
+      const value = /\d/.test(char) ? Number(char) : Number(VIN_LETTER_VALUE[VIN_LETTER_VALUE.indexOf(char) + 1]);
+      sum += value * VIN_WEIGHTS[i];
+    }
+    const check = sum % 11;
+    return vin[8] === (check === 10 ? 'X' : String(check));
+  }
+
+  /**
+   * Eine FIN hat Buchstaben (Herstellercode) und Ziffern (Seriennummer). Schon vor der
+   * Korrektur müssen echte Ziffern drinstehen, sonst würde aus langen Wörtern in Großbuchstaben
+   * eine „FIN“.
+   */
+  function looksLikeVin(token, vin) {
+    const digits = (text) => text.match(/\d/g)?.length ?? 0;
+    return (vin.match(/[A-Z]/g)?.length ?? 0) >= 2 && digits(vin) >= 5 && digits(token) >= 3;
+  }
+
   /**
    * Liest ab dem Ländercode so viele Zeichen (ohne einzelne Leerzeichen), wie das Land
    * vorschreibt. Eine IBAN besteht überwiegend aus Ziffern; sonst ist es Fließtext.
@@ -115,9 +147,11 @@ const BelegtextPruefung = (() => {
   }
 
   /**
-   * Prüft IBAN und deutsche USt-IdNr. im kopierten Text.
+   * Prüft IBAN, deutsche USt-IdNr. und FIN im kopierten Text. Woran ein Wert erkannt wird,
+   * steht an den Mustern oben – es zählt nur die Form der Zeichenkette, nicht ihre Beschriftung.
    * Liest die Texterkennung in einer reinen Ziffern-IBAN einen Buchstaben (O statt 0) und
-   * stimmt die Prüfziffer erst nach dem Ersetzen, wird die korrigierte Fassung kopiert.
+   * stimmt die Prüfziffer erst nach dem Ersetzen, wird die korrigierte Fassung kopiert. In einer
+   * FIN werden I, O und Q immer ersetzt, weil sie dort nicht vorkommen dürfen.
    * Ergebnis: { text, notes: [{ ok, message }] }
    */
   function checkValues(text) {
@@ -153,6 +187,16 @@ const BelegtextPruefung = (() => {
         ? { ok: true, message: 'USt-IdNr. geprüft' }
         : { ok: false, message: 'USt-IdNr.-Prüfziffer falsch, bitte prüfen' });
     }
+
+    result = result.replace(VIN_CANDIDATE, (token) => {
+      const vin = token.replace(/[IOQ]/g, (c) => VIN_FIX[c]);
+      if (!looksLikeVin(token, vin)) return token;
+      if (vin !== token) notes.push({ ok: false, message: 'FIN korrigiert (Lesefehler), bitte prüfen' });
+      if (vinCheckDigitValid(vin)) notes.push({ ok: true, message: 'FIN geprüft' });
+      else if (VIN_CHECK_DIGIT_REQUIRED.test(vin)) notes.push({ ok: false, message: 'FIN-Prüfziffer falsch, bitte prüfen' });
+      else notes.push({ ok: true, message: 'FIN-Format stimmt' });
+      return vin;
+    });
     return { text: result, notes };
   }
 

@@ -21,7 +21,7 @@ Arbeitssprache Deutsch (Code-Kommentare, UI-Texte, Doku). Keine Emojis. Deutsche
 
 ## Architektur
 
-`src/belegtext.js` läuft in der MAIN-World des Viewer-Frames ab `document_start`, davor `src/pruefung.js` (DOM-freie Regeln: OCR-Wortfilter und Prüfziffern, stellt `BelegtextPruefung` bereit, damit `test/` dieselben Regeln prüft), `src/bridge.js` in der isolierten Welt (übergibt per `data-belegtext-vendor` den Pfad zu `vendor/`, weil `chrome.runtime` in MAIN nicht existiert). `src/background.js` (Service Worker) öffnet nur Anleitung und Feedbackseite, `src/popup.html`/`popup.js`/`popup.css` ist das Popup am Erweiterungssymbol (Feedback in drei Kategorien, Anleitung), siehe Invariante 2. Die Seiten liegen im Website-Repo `MrNic3Guy030/Website` unter `belegtext/`.
+`src/belegtext.js` läuft in der MAIN-World des Viewer-Frames ab `document_start`, davor `src/pruefung.js` (DOM-freie Regeln: OCR-Wortfilter und Prüfziffern für IBAN, USt-IdNr. und FIN; europäische FINs haben keine Pflicht-Prüfziffer, also nie als falsch melden; stellt `BelegtextPruefung` bereit, damit `test/` dieselben Regeln prüft), `src/bridge.js` in der isolierten Welt (übergibt per `data-belegtext-vendor` den Pfad zu `vendor/`, weil `chrome.runtime` in MAIN nicht existiert). `src/background.js` (Service Worker) öffnet nur Anleitung und Feedbackseite, `src/popup.html`/`popup.js`/`popup.css` ist das Popup am Erweiterungssymbol (Feedback in drei Kategorien, Anleitung), siehe Invariante 2. Die Seiten liegen im Website-Repo `MrNic3Guy030/Website` unter `belegtext/`.
 
 Zwei Hooks, beide liefern eine **exakte** Zuordnung „was liegt in welchem Canvas“:
 

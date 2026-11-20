@@ -61,3 +61,30 @@ test('USt-IdNr.', () => {
   assert.deepEqual(messages('USt-IdNr. DE 136695976'), ['USt-IdNr. geprüft']);
   assert.deepEqual(messages('DE123456789'), ['USt-IdNr.-Prüfziffer falsch, bitte prüfen']);
 });
+
+test('FIN mit gültiger Prüfziffer', () => {
+  assert.deepEqual(messages('FIN 1M8GDM9AXKP042788'), ['FIN geprüft']);
+});
+
+test('europäische FIN ohne Prüfziffer gilt nicht als falsch', () => {
+  assert.deepEqual(messages('WVWZZZ1JZXW000001'), ['FIN-Format stimmt']);
+});
+
+test('nordamerikanische FIN mit falscher Prüfziffer wird gemeldet', () => {
+  assert.deepEqual(messages('1M8GDM9A1KP042788'), ['FIN-Prüfziffer falsch, bitte prüfen']);
+});
+
+test('O, Q und I in einer FIN werden korrigiert', () => {
+  const { text, notes } = checkValues('WVWZZZ1JZXW0OO0O1');
+  assert.equal(text, 'WVWZZZ1JZXW000001');
+  assert.deepEqual([...notes.map((n) => n.message)], ['FIN korrigiert (Lesefehler), bitte prüfen', 'FIN-Format stimmt']);
+  assert.equal(checkValues('1M8GDM9AXKPO42788').text, '1M8GDM9AXKP042788');
+});
+
+test('kein FIN-Hinweis bei anderen Zeichenketten', () => {
+  assert.deepEqual(messages('12345678901234567'), []);
+  assert.deepEqual(messages('RECHNUNGSNUMMERAB'), []);
+  assert.deepEqual(messages('ORGANISATIONSPLAN'), []);
+  assert.deepEqual(messages('WVWZZZ1JZXW0000012'), []);
+  assert.deepEqual(messages('Rechnung RE-2026-04711'), []);
+});
