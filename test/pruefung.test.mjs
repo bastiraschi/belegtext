@@ -88,3 +88,16 @@ test('kein FIN-Hinweis bei anderen Zeichenketten', () => {
   assert.deepEqual(messages('WVWZZZ1JZXW0000012'), []);
   assert.deepEqual(messages('Rechnung RE-2026-04711'), []);
 });
+
+test('doppelt gelesene 0 in einer FIN (Schreibmaschinenschrift) wird entfernt, wenn die Prüfziffer stimmt', () => {
+  const { text, notes } = checkValues('VIN: SALAA1AB1MA0O00105');
+  assert.equal(text, 'VIN: SALAA1AB1MA000105');
+  assert.deepEqual([...notes.map((n) => n.message)], ['FIN korrigiert (Zeichen doppelt gelesen), bitte prüfen', 'FIN geprüft']);
+});
+
+test('18 Zeichen ohne passende Prüfziffer: nur Hinweis, Text bleibt', () => {
+  const { text, notes } = checkValues('WVWZZZ1J5XW0O00106');
+  assert.equal(text, 'WVWZZZ1J5XW0O00106');
+  assert.deepEqual([...notes.map((n) => n.message)], ['FIN hat 18 Zeichen, ein Zeichen doppelt gelesen? Bitte prüfen']);
+  assert.deepEqual(messages('AB12345678901234CD'), []);
+});

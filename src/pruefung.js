@@ -76,6 +76,11 @@ const BelegtextPruefung = (() => {
      nur am Muster: eine Zeichenkette aus genau 17 Zeichen mit Buchstaben und Ziffern. */
   const VIN_CANDIDATE = /(?<![\p{L}\p{N}])[A-Z0-9]{17}(?![\p{L}\p{N}])/gu;
   const VIN_FIX = { I: '1', O: '0', Q: '0' };
+  /* Schreibmaschinen- und Nullen mit Punkt liest Tesseract manchmal doppelt („0O“ statt „0“).
+     Eine solche FIN hat 18 Zeichen; gilt sie nach Entfernen eines Zeichens des Paars, wird sie
+     nur übernommen, wenn die Prüfziffer stimmt – sonst gibt es nur einen Hinweis. */
+  const VIN_DOUBLED = /(?<![\p{L}\p{N}])[A-Z0-9]{18}(?![\p{L}\p{N}])/gu;
+  const VIN_DOUBLED_PAIR = /0[OQ]|[OQ]0|1I|I1/g;
   const VIN_WEIGHTS = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
   const VIN_LETTER_VALUE = 'A1B2C3D4E5F6G7H8J1K2L3M4N5P7R9S2T3U4V5W6X7Y8Z9';
   /* In Nordamerika (Herstellercode beginnt mit 1–5) ist die Prüfziffer an Stelle 9 Pflicht,
@@ -187,6 +192,25 @@ const BelegtextPruefung = (() => {
         ? { ok: true, message: 'USt-IdNr. geprüft' }
         : { ok: false, message: 'USt-IdNr.-Prüfziffer falsch, bitte prüfen' });
     }
+
+    result = result.replace(VIN_DOUBLED, (token) => {
+      const candidates = new Set();
+      for (const pair of token.matchAll(VIN_DOUBLED_PAIR)) {
+        for (const drop of [pair.index, pair.index + 1]) {
+          const shorter = token.slice(0, drop) + token.slice(drop + 1);
+          const vin = shorter.replace(/[IOQ]/g, (c) => VIN_FIX[c]);
+          if (looksLikeVin(shorter, vin)) candidates.add(vin);
+        }
+      }
+      if (!candidates.size) return token;
+      const valid = [...candidates].filter(vinCheckDigitValid);
+      if (valid.length === 1) {
+        notes.push({ ok: false, message: 'FIN korrigiert (Zeichen doppelt gelesen), bitte prüfen' });
+        return valid[0];
+      }
+      notes.push({ ok: false, message: 'FIN hat 18 Zeichen, ein Zeichen doppelt gelesen? Bitte prüfen' });
+      return token;
+    });
 
     result = result.replace(VIN_CANDIDATE, (token) => {
       const vin = token.replace(/[IOQ]/g, (c) => VIN_FIX[c]);
