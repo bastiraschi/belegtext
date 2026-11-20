@@ -84,3 +84,7 @@
   opacity: 1;
   transform: translate(-50%, 0);
 }
+
+.belegtext-toast--warnung {
+  background: #92400e;
+}

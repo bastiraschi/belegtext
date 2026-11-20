@@ -25,11 +25,6 @@
      nachweislich falsche IBAN-Ziffern. */
   const IMAGE_OCR_UPSCALE = 3;
   const OCR_MAX_SIDE = 4200;
-  /* Rauschen (Formularlinien, Kästchen, Flecken) liegt unter dieser Konfidenz und ist kurz.
-     Längere Zeichenketten bleiben immer – etwa Belegnummern in farbigen Markierungen. */
-  const OCR_MIN_CONFIDENCE = 30;
-  const OCR_ALWAYS_KEEP = /[\p{L}\p{N}]{4}/u;
-  const OCR_CONTENT = /[\p{L}\p{N}€§%]/u;
   const IMAGE_CACHE_SIZE = 50;
 
   const warn = (...args) => console.warn('[Belegtext]', ...args);
@@ -355,9 +350,8 @@
     for (const block of data.blocks ?? []) {
       for (const paragraph of block.paragraphs) {
         for (const line of paragraph.lines) {
-          const words = line.words
-            .filter((word) => OCR_CONTENT.test(word.text)
-              && (word.confidence >= OCR_MIN_CONFIDENCE || OCR_ALWAYS_KEEP.test(word.text)))
+          // Filterregeln in src/pruefung.js, gemessen mit test/ocr-messung.mjs
+          const words = BelegtextPruefung.ocrLineWords(line.words)
             .map((word) => ({
               text: word.text,
               x0: word.bbox.x0 / w,
@@ -591,37 +585,47 @@
       .join('\n');
   }
 
-  /** Doppelklick und Ziehen kopieren sofort. */
+  /** Doppelklick und Ziehen kopieren sofort. Den Hinweis zeigt der copy-Handler. */
   function copySelection() {
-    const text = normalize(window.getSelection().toString());
-    if (!text) return;
-    if (document.execCommand('copy')) toast(`Kopiert: ${text.replace(/\n/g, ' ')}`);
-    else toast('Kopieren nicht möglich – bitte Strg+C verwenden');
+    if (!normalize(window.getSelection().toString())) return;
+    if (!document.execCommand('copy')) toast('Kopieren nicht möglich – bitte Strg+C verwenden', true);
   }
 
-  // Strg+C und automatisches Kopieren: ohne angehängte Leerzeichen, Zeilen bereinigt.
+  /*
+   * Strg+C und automatisches Kopieren: Zeilen bereinigt, ohne angehängte Leerzeichen.
+   * IBAN und USt-IdNr. werden an der Prüfziffer gemessen; der Hinweis sagt, ob sie stimmt.
+   */
   document.addEventListener(
     'copy',
     (event) => {
       const selection = window.getSelection();
       if (!selection.rangeCount || !inCopyRegion(selection.anchorNode)) return;
-      event.clipboardData.setData('text/plain', normalize(selection.toString()));
+      const text = normalize(selection.toString());
+      if (!text) return;
+      const { text: checked, notes } = BelegtextPruefung.checkValues(text);
+      event.clipboardData.setData('text/plain', checked);
       event.preventDefault();
+      const problems = notes.filter((note) => !note.ok);
+      const shown = problems.length ? problems : notes;
+      const prefix = [...new Set(shown.map((note) => note.message))].join(', ');
+      toast(`${prefix ? `${prefix} – ` : ''}Kopiert: ${checked.replace(/\n/g, ' ')}`, problems.length > 0);
     },
     true,
   );
 
   let toastTimer;
-  function toast(message) {
+  /** Warnungen bleiben länger stehen und sind farbig abgesetzt. */
+  function toast(message, warning = false) {
     let el = document.querySelector('.belegtext-toast');
     if (!el) {
       el = document.createElement('div');
       el.className = 'belegtext-toast';
       document.body.appendChild(el);
     }
-    el.textContent = message.length > 80 ? `${message.slice(0, 77)}…` : message;
+    el.textContent = message.length > 90 ? `${message.slice(0, 87)}…` : message;
+    el.classList.toggle('belegtext-toast--warnung', warning);
     el.classList.add('belegtext-toast--visible');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('belegtext-toast--visible'), 1600);
+    toastTimer = setTimeout(() => el.classList.remove('belegtext-toast--visible'), warning ? 4000 : 1600);
   }
 })();

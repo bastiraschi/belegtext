@@ -15,7 +15,7 @@ Chrome verlangt mindestens einen, besser drei bis fünf Screenshots in **1280×8
 
 1. **Doppelklick:** Digitale Musterrechnung, Doppelklick auf `RE-2026-04711`, der Hinweis „Kopiert: RE-2026-04711“ ist unten sichtbar.
 2. **Markieren:** Ein Bereich über mehrere Zeilen markiert (z. B. die Positionsliste), blaue Markierung sichtbar.
-3. **Scan:** Gescannte Musterrechnung, Doppelklick auf die IBAN-Gruppe oder den Rechnungsbetrag `388,18 €`.
+3. **Scan:** Gescannte Musterrechnung, die IBAN markiert, der Hinweis „IBAN geprüft – Kopiert: DE89 …“ ist unten sichtbar. Alternativ Doppelklick auf den Rechnungsbetrag `388,18 €`.
 4. **Texterkennung läuft:** Gescannte Musterrechnung direkt nach dem Öffnen, Hinweis „Texterkennung …“ oben rechts.
 5. **Feedback:** Belegtext-Symbol angeheftet, Popup geöffnet („Wie läuft es mit Belegtext?“ mit den drei Kategorien), daneben die Musterrechnung.
 

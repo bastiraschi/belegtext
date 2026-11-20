@@ -19,6 +19,7 @@ Chrome- und Edge-Erweiterung, die Text in der Belegansicht von **DATEV Unternehm
 - **Ziehen** markiert beliebige Textstellen, auch über mehrere Zeilen, und kopiert beim Loslassen.
 - **Strg+C** funktioniert zusätzlich wie gewohnt.
 - Ein kurzer Hinweis „Kopiert: …“ bestätigt jeden Kopiervorgang. Kopierter Text wird bereinigt (keine angehängten oder doppelten Leerzeichen).
+- **IBAN und USt-IdNr. werden geprüft.** Enthält der kopierte Text eine IBAN oder eine deutsche USt-IdNr., rechnet Belegtext die Prüfziffer nach: „IBAN geprüft – Kopiert: …“. Stimmt sie nicht, bleibt ein farbiger Hinweis „IBAN-Prüfziffer falsch, bitte prüfen“ einige Sekunden stehen. Hat die Texterkennung in einer IBAN, die nur aus Ziffern besteht, einen Buchstaben gelesen (O statt 0) und stimmt die Prüfziffer erst nach dem Ersetzen, wird die korrigierte IBAN kopiert und darauf hingewiesen.
 - **Feedback:** Ein Klick auf das Belegtext-Symbol in der Symbolleiste öffnet ein kleines Menü („Etwas klappt nicht“, „Idee“, „Gefällt mir“). Tipp: Symbol über das Puzzle-Menü anheften.
 - Bei **Scans und Seitenbildern** erscheint oben rechts kurz „Texterkennung …“. Beim ersten Scan einer Sitzung dauert das einige Sekunden, danach meist 2–4 Sekunden pro Seite.
 
@@ -32,7 +33,7 @@ Belegtext hängt sich in beide Zeichenwege ein. Dadurch ist bei jeder Seite exak
 - **Gescannte PDFs:** Die Seite wird in 300 dpi gerendert und mit [Tesseract.js](https://github.com/naptha/tesseract.js) (WebAssembly, deutsches Sprachmodell) erkannt.
 - **Seitenbilder:** Das Bild wird dreifach hochskaliert und ebenfalls mit Tesseract erkannt. Ohne Hochskalieren liest Tesseract bei 96 dpi nachweislich falsche Ziffern.
 
-Formularlinien, Kästchen und Flecken werden herausgefiltert. Es gibt keine Heuristik zur Zuordnung von Seiten und keinen Bildabgleich, also keine Gefahr, Text eines anderen Belegs zu kopieren.
+Formularlinien, Kästchen und Flecken werden herausgefiltert; Zeichenketten, die Tesseract ohne Lücke in zwei Wörter zerlegt („DE“ + „123456789“), werden wieder zusammengefügt. Die Regeln stehen in `src/pruefung.js` und werden an den Musterbelegen gemessen (siehe „Entwickeln“). Es gibt keine Heuristik zur Zuordnung von Seiten und keinen Bildabgleich, also keine Gefahr, Text eines anderen Belegs zu kopieren.
 
 ## Datenschutz und Sicherheit
 
@@ -40,7 +41,7 @@ Formularlinien, Kästchen und Flecken werden herausgefiltert. Es gibt keine Heur
 - **Keine Übertragung von Belegdaten.** Gearbeitet wird mit dem, was der DATEV-Viewer ohnehin geladen hat. Texterkennung und Sprachmodell sind in der Erweiterung enthalten – Belegdaten verlassen den Rechner nicht.
 - **Anleitung und Feedback.** Einmalig nach der Installation öffnet sich die [Anleitung auf rasch.finance](https://rasch.finance/belegtext/start/), beim Entfernen eine kurze Feedbackseite. Das Popup am Symbol öffnet auf Klick dieselbe Feedbackseite in einem neuen Tab; abgeschickt wird erst dort. Übergeben werden nur Versionsnummer und gewählte Kategorie. Sonst öffnet oder sendet die Erweiterung nichts.
 - **Keine Telemetrie, keine externen Dienste, kein nachgeladener Code.**
-- **Nachprüfbar:** Die eigene Logik steht vollständig in `src/belegtext.js` (rund 630 Zeilen, kommentiert), `src/bridge.js` (eine Zeile) `src/background.js` (Anleitung und Feedbackseite, rund 10 Zeilen) und `src/popup.js` (Popup am Symbol, rund 25 Zeilen). Jede Store-Version entspricht einem Git-Tag in diesem Repository.
+- **Nachprüfbar:** Die eigene Logik steht vollständig in `src/belegtext.js` (rund 630 Zeilen, kommentiert), `src/pruefung.js` (Filterregeln der Texterkennung und Prüfziffern, rund 160 Zeilen), `src/bridge.js` (eine Zeile) `src/background.js` (Anleitung und Feedbackseite, rund 10 Zeilen) und `src/popup.js` (Popup am Symbol, rund 25 Zeilen). Jede Store-Version entspricht einem Git-Tag in diesem Repository.
 
 Datenschutzerklärung: [PRIVACY.md](PRIVACY.md)
 
@@ -74,8 +75,18 @@ sha256sum tesseract.js-7.0.0/package/dist/tesseract.min.js \
 - **Seitenbilder (96 dpi):** Normale Schrift, Nummern und Beträge werden zuverlässig erkannt, sehr kleine Schrift (z. B. Anschriften im Sichtfenster) oft fehlerhaft. Das liegt an der Auflösung, die DATEV ausliefert.
 - **Mehrspaltige Formulare bei Scans:** Die Texterkennung liest zeilenweise über die ganze Breite. Markiert man mehrere Zeilen in einer Spalte, kann Text aus der Nachbarspalte mitkommen. Einzelne Felder sind nicht betroffen.
 - **Gedrehte Seitenbilder** bekommen keinen Textlayer, bis die Ansicht zurückgedreht ist.
-- **Erkennungsfehler:** Bei Scans ist der Text eine Texterkennung, kein Originaltext. Kritische Werte (IBAN, Beträge) kurz gegenprüfen.
+- **Erkennungsfehler:** Bei Scans ist der Text eine Texterkennung, kein Originaltext. IBAN und USt-IdNr. prüft Belegtext an der Prüfziffer, Beträge und andere Werte nicht – kurz gegenprüfen.
+- **Doppelklick auf eine IBAN** kopiert nur den Viererblock. Zum Prüfen die ganze IBAN markieren (Ziehen oder Dreifachklick).
 - **Abhängig von DATEV-Interna.** Ändert DATEV den Aufbau oder die Sicherheitseinstellungen der Belegbildanzeige, kann eine Anpassung nötig sein.
+
+## Entwickeln
+
+Für Tests und Messungen (nicht Teil des Store-Pakets) einmal `npm install`, dann:
+
+- `npm test` prüft die Regeln aus `src/pruefung.js` (Filter, IBAN, USt-IdNr.).
+- `npm run messen` lässt die Musterrechnung in fünf Varianten durch dieselbe Texterkennung wie die Erweiterung laufen (Scan-PDF in 300 dpi, schief, schlechter Scan, Seitenbild eines Scans, Seitenbild eines digitalen PDFs) und zählt erkannte Felder und Fehlwörter. `-- --details` zeigt fehlende Felder, Fehlwörter und verworfene Wörter. Erwartete Werte: `test/korpus/musterrechnung.json`.
+
+Änderungen an der Texterkennung nur übernehmen, wenn die Messung nicht schlechter wird. Nur Musterbelege verwenden, nie echte Belege.
 
 ## Fehler melden und Feedback
 

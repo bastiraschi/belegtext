@@ -1,0 +1,16 @@
+{
+  "name": "belegtext",
+  "private": true,
+  "description": "Entwicklungswerkzeuge für Belegtext: Tests und Messung der Texterkennung. Nicht Teil des Store-Pakets.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "messen": "node test/ocr-messung.mjs"
+  },
+  "devDependencies": {
+    "@napi-rs/canvas": "0.1.100",
+    "pdfjs-dist": "5.4.54",
+    "tesseract.js": "7.0.0"
+  }
+}
