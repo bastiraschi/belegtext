@@ -1,11 +1,11 @@
-# Release: Tag v<version> pushen → Paket bauen, im Chrome Web Store hochladen und
-# zur Prüfung einreichen, GitHub-Release mit dem ZIP anlegen.
+# Release per Knopf: Actions → Release → „Run workflow“ auf main.
+# Liest die Version aus manifest.json, baut das Paket, lädt es in den Chrome Web Store
+# hoch, reicht es zur Prüfung ein und legt Tag v<version> und GitHub-Release mit dem ZIP an.
 # Einrichtung der Secrets: store/chrome-web-store-api.md
 name: Release
 
 on:
-  push:
-    tags: ["v*"]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -26,11 +26,15 @@ jobs:
         with:
           node-version: 22
 
-      - name: Tag gegen manifest.json prüfen
+      - name: Version prüfen
         run: |
+          if [ "${GITHUB_REF}" != "refs/heads/main" ]; then
+            echo "::error::Release nur von main (gestartet auf ${GITHUB_REF_NAME})"
+            exit 1
+          fi
           version=$(node -p "require('./manifest.json').version")
-          if [ "${GITHUB_REF_NAME}" != "v${version}" ]; then
-            echo "::error::Tag ${GITHUB_REF_NAME} passt nicht zu manifest.json (${version})"
+          if git ls-remote --exit-code --tags origin "refs/tags/v${version}" >/dev/null; then
+            echo "::error::Version ${version} ist schon veröffentlicht. Erst manifest.json und CHANGELOG.md erhöhen."
             exit 1
           fi
           grep -q "^## ${version} " CHANGELOG.md || { echo "::error::CHANGELOG.md hat keinen Abschnitt für ${version}"; exit 1; }
@@ -47,9 +51,9 @@ jobs:
           CWS_PUBLISHER_ID: ${{ secrets.CWS_PUBLISHER_ID }}
         run: ./scripts/chrome-store-upload.sh "$ZIP"
 
-      - name: GitHub-Release anlegen
+      - name: Tag und GitHub-Release anlegen
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           awk -v v="$VERSION" '$0 ~ "^## " v " " {f=1; next} /^## / {f=0} f' CHANGELOG.md > notes.md
-          gh release create "$GITHUB_REF_NAME" "$ZIP" --title "Belegtext ${VERSION}" --notes-file notes.md
+          gh release create "v${VERSION}" "$ZIP" --target "$GITHUB_SHA" --title "Belegtext ${VERSION}" --notes-file notes.md
