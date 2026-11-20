@@ -1,5 +1,12 @@
 # Änderungen
 
+## 1.2.0 – 2026-11-20
+
+- IBAN und deutsche USt-IdNr. werden beim Kopieren an der Prüfziffer geprüft; der Hinweis zeigt „IBAN geprüft“ oder warnt farbig, wenn die Prüfziffer nicht stimmt. Liest die Texterkennung in einer reinen Ziffern-IBAN einen Buchstaben (O statt 0), wird die korrigierte IBAN kopiert, wenn erst sie die Prüfziffer erfüllt
+- Texterkennung: Müll aus Tabellenlinien („LLLLLLL…“) landet nicht mehr im Textlayer; unsichere Mengen (einzelne Ziffern) bleiben erhalten; ohne Lücke getrennte Zeichenketten werden zusammengefügt („DE“ + „123456789“ ergibt wieder die USt-IdNr.)
+- Strg+C zeigt jetzt ebenfalls den Hinweis „Kopiert: …“
+- Messskript und Tests für die Texterkennung (`npm test`, `npm run messen`); an der Musterrechnung in fünf Varianten 94 statt 91 von 100 Feldern erkannt, 8 statt 12 Fehlwörter
+
 ## 1.1.0 – 2026-11-20
 
 - Popup am Belegtext-Symbol: Feedback in drei Kategorien („Etwas klappt nicht“, „Idee“, „Gefällt mir“) und Link zur Anleitung. Öffnet das Formular auf rasch.finance in einem neuen Tab; das Popup sendet nichts und braucht keine Berechtigung

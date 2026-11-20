@@ -21,7 +21,7 @@ Arbeitssprache Deutsch (Code-Kommentare, UI-Texte, Doku). Keine Emojis. Deutsche
 
 ## Architektur
 
-`src/belegtext.js` läuft in der MAIN-World des Viewer-Frames ab `document_start`, `src/bridge.js` in der isolierten Welt (übergibt per `data-belegtext-vendor` den Pfad zu `vendor/`, weil `chrome.runtime` in MAIN nicht existiert). `src/background.js` (Service Worker) öffnet nur Anleitung und Feedbackseite, `src/popup.html`/`popup.js`/`popup.css` ist das Popup am Erweiterungssymbol (Feedback in drei Kategorien, Anleitung), siehe Invariante 2. Die Seiten liegen im Website-Repo `MrNic3Guy030/Website` unter `belegtext/`.
+`src/belegtext.js` läuft in der MAIN-World des Viewer-Frames ab `document_start`, davor `src/pruefung.js` (DOM-freie Regeln: OCR-Wortfilter und Prüfziffern, stellt `BelegtextPruefung` bereit, damit `test/` dieselben Regeln prüft), `src/bridge.js` in der isolierten Welt (übergibt per `data-belegtext-vendor` den Pfad zu `vendor/`, weil `chrome.runtime` in MAIN nicht existiert). `src/background.js` (Service Worker) öffnet nur Anleitung und Feedbackseite, `src/popup.html`/`popup.js`/`popup.css` ist das Popup am Erweiterungssymbol (Feedback in drei Kategorien, Anleitung), siehe Invariante 2. Die Seiten liegen im Website-Repo `MrNic3Guy030/Website` unter `belegtext/`.
 
 Zwei Hooks, beide liefern eine **exakte** Zuordnung „was liegt in welchem Canvas“:
 
@@ -54,12 +54,17 @@ DATEVs eigene Erkennungskästen (grün/orange, `.ocr-wrapper:not(.ocr-no-text)`)
 
 ## OCR-Parameter (begründet, nicht ohne Messung ändern)
 
+Stehen in `src/pruefung.js`. Messen mit `npm run messen` (Musterrechnung in fünf Varianten, Felder und Fehlwörter); eine Änderung nur übernehmen, wenn die Summe nicht schlechter wird. Stand 1.2.0: 94/100 Felder, 782 richtige Wörter, 8 Fehlwörter (1.1.0: 91, 778, 12). Die Messung rendert mit pdf.js in Node, nicht im Browser – kleine Abweichungen zur Erweiterung sind möglich.
+
 - `OCR_MIN_CONFIDENCE = 30`: Rauschen (Linien, Kästchen) lag bei 0–15, echte Felder meist > 60.
-- `OCR_ALWAYS_KEEP = 4 Buchstaben/Ziffern`: Belegnummer in DATEVs grüner Markierung hatte Konfidenz 15.
+- `OCR_ALWAYS_KEEP` = 4 Buchstaben/Ziffern oder reine Zahl: Belegnummer in DATEVs grüner Markierung hatte Konfidenz 15, USt-IdNr. der Musterrechnung 0, Mengen um 23.
+- `OCR_LINE_NOISE` = drei gleiche Buchstaben hintereinander bei unsicheren Wörtern: Tabellenlinien („LLLLLLLa0Gß…“, „EEE“) kamen sonst über `OCR_ALWAYS_KEEP` in den Layer.
+- `OCR_JOIN_GAP = 0.25` Zeichenhöhe, nur zwischen Buchstaben/Ziffern: Tesseract trennt „DE123456789“ mit 0,15 Zeichenhöhe Lücke; echte Wortabstände liegen um 0,5. Ohne die Buchstaben/Ziffern-Bedingung klebten im Seitenbild „19 %“ und „61,98 €“ zusammen (gemessen).
 - Tesseract.js 7.0.0, Core 7.0.0 (nur LSTM-Varianten), Sprachmodell `deu` 4.0.0_best_int. Prüfsummen im README.
 
 ## Testen
 
+- `npm test` (Regeln) und `npm run messen` (Texterkennung an den Musterbelegen) nach `npm install`; beides läuft ohne DATEV.
 - Mit `claude --chrome` in einer eingeloggten Sitzung. Den Login macht immer ein Mensch, nie Claude.
 - Nach Änderungen an der installierten Erweiterung: `chrome://extensions` → Belegtext → Neu laden, DUo-Tab neu laden.
 - Testaufbau ohne Neuinstallation: siehe private Notizen.

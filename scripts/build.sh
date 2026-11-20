@@ -3,6 +3,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 version=$(node -p "require('./manifest.json').version")
+node --check src/pruefung.js
 node --check src/belegtext.js
 node --check src/bridge.js
 node --check src/background.js

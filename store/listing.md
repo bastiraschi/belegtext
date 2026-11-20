@@ -1,6 +1,6 @@
 # Store-Einträge
 
-Gilt für Chrome Web Store und Microsoft Edge Add-ons. Hochgeladen wird `belegtext-1.1.0-store.zip` (Manifest liegt im ZIP-Wurzelverzeichnis).
+Gilt für Chrome Web Store und Microsoft Edge Add-ons. Hochgeladen wird `belegtext-1.2.0-store.zip` (Manifest liegt im ZIP-Wurzelverzeichnis).
 
 ## Grunddaten
 
@@ -27,6 +27,7 @@ SO FUNKTIONIERT ES
 • DATEVs grüne und orange Erkennungskästen bleiben bedienbar
 • Ziehen markiert beliebige Stellen, auch über mehrere Zeilen, und kopiert beim Loslassen
 • Strg+C funktioniert zusätzlich wie gewohnt
+• IBAN und USt-IdNr. werden beim Kopieren an der Prüfziffer geprüft – mit Warnung, wenn etwas nicht stimmt
 • Digitale PDFs: Die im PDF vorhandene Textebene wird über den Beleg gelegt
 • Scans und Belegbilder: Der Text wird lokal per Texterkennung (Tesseract) erkannt
 
@@ -39,7 +40,7 @@ DATENSCHUTZ
 • Open Source (MIT): https://github.com/bastiraschi/belegtext
 
 HINWEISE
-• Bei Scans ist der Text eine Texterkennung. Kritische Werte wie IBAN und Beträge bitte kurz gegenprüfen.
+• Bei Scans ist der Text eine Texterkennung. IBAN und USt-IdNr. prüft Belegtext an der Prüfziffer, Beträge bitte kurz gegenprüfen.
 • Inoffizielle Erweiterung ohne Verbindung zur DATEV eG. DATEV ist eine Marke der DATEV eG.
 ```
 
