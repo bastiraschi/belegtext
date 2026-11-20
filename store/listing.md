@@ -1,6 +1,6 @@
 # Store-Einträge
 
-Gilt für Chrome Web Store und Microsoft Edge Add-ons. Hochgeladen wird `belegtext-1.0.1-store.zip` (Manifest liegt im ZIP-Wurzelverzeichnis).
+Gilt für Chrome Web Store und Microsoft Edge Add-ons. Hochgeladen wird `belegtext-1.1.0-store.zip` (Manifest liegt im ZIP-Wurzelverzeichnis).
 
 ## Grunddaten
 
@@ -35,6 +35,7 @@ DATENSCHUTZ
 • Keine Übertragung von Belegdaten – Texterkennung und Sprachmodell sind enthalten
 • Keine Datenspeicherung, keine Telemetrie
 • Einmalig nach der Installation öffnet sich eine kurze Anleitung auf rasch.finance
+• Feedback über das Symbol in der Symbolleiste: öffnet ein Formular auf rasch.finance, aus DATEV wird nichts übernommen
 • Open Source (MIT): https://github.com/bastiraschi/belegtext
 
 HINWEISE
@@ -50,6 +51,7 @@ HINWEISE
   Die Erweiterung muss in der Belegansicht laufen, um dort die Textebene über den angezeigten Beleg zu legen. Sie läuft auf keiner anderen Seite.
 - **Remote-Code:** Nein. Sämtlicher Code einschließlich der Texterkennung ist im Paket enthalten.
 - **Service Worker:** öffnet nur einmalig nach der Installation die Anleitung und setzt die Feedbackseite für die Deinstallation (`chrome.tabs.create`, `chrome.runtime.setUninstallURL`, beides ohne Berechtigung).
+- **Popup (`action`):** keine Berechtigung. Öffnet auf Klick die Feedbackseite oder die Anleitung auf rasch.finance in einem neuen Tab (`chrome.tabs.create`) und sendet selbst nichts.
 - **Datennutzung:** Keine der Kategorien ankreuzen (es werden keine Daten erhoben).
 - **Bestätigungen:** alle drei Erklärungen bestätigen (kein Verkauf, keine zweckfremde Nutzung, keine Bonitätsprüfung).
 - **Datenschutzerklärung (URL):** https://github.com/bastiraschi/belegtext/blob/main/PRIVACY.md
@@ -59,7 +61,7 @@ HINWEISE
 Benutzername und Passwort leer lassen (kein Testzugang möglich). Zusätzliche Anweisungen, Englisch, höchstens 500 Zeichen:
 
 ```
-Runs only in the document viewer of DATEV Unternehmen online (duo-belegbildanzeige.apps.datev.de). Login needs a hardware token, so no test account is possible. It overlays a selectable text layer on the shown invoice (PDF text layer or bundled Tesseract OCR). Only access: content script on that host. No data sent, no remote code. Opens a guide on rasch.finance once after install; uninstall opens a feedback page (version only). Code: github.com/bastiraschi/belegtext
+Runs only in the document viewer of DATEV Unternehmen online (duo-belegbildanzeige.apps.datev.de). Login needs a hardware token, so no test account is possible. It overlays a selectable text layer on the shown invoice (PDF text layer or bundled Tesseract OCR). Only access: content script on that host. No data sent, no remote code. Guide on rasch.finance once after install; toolbar popup and uninstall open a feedback page (version, category only). Code: github.com/bastiraschi/belegtext
 ```
 
 ## Händlerstatus (EU-Digital-Services-Act)

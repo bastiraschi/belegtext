@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Belegtext</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="popup.js" defer></script>
+</head>
+<body>
+  <header class="head">
+    <img src="../icons/icon-32.png" width="20" height="20" alt="">
+    <b>Belegtext</b>
+    <small id="version"></small>
+  </header>
+
+  <main class="body">
+    <p class="question">Wie läuft es mit Belegtext?</p>
+    <div class="choices">
+      <button type="button" class="choice" data-typ="problem">
+        <i class="dot dot-problem"></i>
+        <span>Etwas klappt nicht<small>z. B. falscher Text bei einem Scan</small></span>
+      </button>
+      <button type="button" class="choice" data-typ="idee">
+        <i class="dot dot-idee"></i>
+        <span>Ich habe eine Idee<small>Was würde Ihnen Zeit sparen?</small></span>
+      </button>
+      <button type="button" class="choice" data-typ="lob">
+        <i class="dot dot-lob"></i>
+        <span>Gefällt mir<small>Kurzes Lob hilft auch</small></span>
+      </button>
+    </div>
+    <p class="privacy">Öffnet ein Formular auf rasch.finance. Aus DATEV wird nichts übernommen.</p>
+  </main>
+
+  <footer class="foot">
+    <a href="#" data-page="start">Anleitung</a>
+  </footer>
+</body>
+</html>
