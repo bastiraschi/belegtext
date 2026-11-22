@@ -21,4 +21,4 @@ labels: bug
 
 **Belegtext-Version** (siehe `chrome://extensions`):
 
-**Konsolenmeldungen** (F12 → Konsole → oben links Frame `duo-belegbildanzeige.apps.datev.de` wählen → nach `[Belegtext]` filtern):
+**Konsolenmeldungen** (F12 → Konsole → nach `[Belegtext]` filtern; in der bisherigen Belegansicht vorher oben links Frame `duo-belegbildanzeige.apps.datev.de` wählen):

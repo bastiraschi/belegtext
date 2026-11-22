@@ -1,5 +1,10 @@
 # Änderungen
 
+## 1.2.1 – 2026-11-22
+
+- Läuft in der neuen Belegansicht von DATEV Unternehmen online (`duo-belege.apps.datev.de`, Belegdetails mit Seitenpanel). Der Viewer ist dort kein eigener Frame mehr, sondern in die Belege-App eingebettet (Web Component mit Shadow DOM); Textlayer, Doppelklick, Ziehen und DATEVs Erkennungskästen funktionieren dort wieder. Die bisherige Belegansicht (`duo-belegbildanzeige.apps.datev.de`) wird weiter unterstützt
+- Chrome fragt beim Update einmal nach Zugriff auf die zusätzliche Adresse `duo-belege.apps.datev.de`
+
 ## 1.2.0 – 2026-11-20
 
 - IBAN und deutsche USt-IdNr. werden beim Kopieren an der Prüfziffer geprüft; der Hinweis zeigt „IBAN geprüft“ oder warnt farbig, wenn die Prüfziffer nicht stimmt. Liest die Texterkennung in einer reinen Ziffern-IBAN einen Buchstaben (O statt 0), wird die korrigierte IBAN kopiert, wenn erst sie die Prüfziffer erfüllt

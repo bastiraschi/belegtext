@@ -39,11 +39,11 @@ Formularlinien, Kästchen und Flecken werden herausgefiltert; Zeichenketten, die
 
 ## Datenschutz und Sicherheit
 
-- **Nur die Belegansicht.** Die Erweiterung läuft ausschließlich im Frame `duo-belegbildanzeige.apps.datev.de` und fordert keine weiteren Berechtigungen an (kein `permissions`- oder `host_permissions`-Eintrag). Chrome weist bei der Installation darauf hin, dass sie diese eine Seite lesen und ändern darf – das ist der Textlayer über dem Beleg.
+- **Nur die Belegansicht.** Die Erweiterung läuft ausschließlich auf `duo-belege.apps.datev.de` (neue Belegansicht, Viewer direkt in der Belege-App) und `duo-belegbildanzeige.apps.datev.de` (bisherige Belegansicht als eingebetteter Frame) und fordert keine weiteren Berechtigungen an (kein `permissions`- oder `host_permissions`-Eintrag). Aktiv wird sie dort nur am Belegbild. Chrome weist bei der Installation darauf hin, dass sie diese Seiten lesen und ändern darf – das ist der Textlayer über dem Beleg.
 - **Keine Übertragung von Belegdaten.** Gearbeitet wird mit dem, was der DATEV-Viewer ohnehin geladen hat. Texterkennung und Sprachmodell sind in der Erweiterung enthalten – Belegdaten verlassen den Rechner nicht.
 - **Anleitung und Feedback.** Einmalig nach der Installation öffnet sich die [Anleitung auf rasch.finance](https://rasch.finance/belegtext/start/), beim Entfernen eine kurze Feedbackseite. Das Popup am Symbol öffnet auf Klick dieselbe Feedbackseite in einem neuen Tab; abgeschickt wird erst dort. Übergeben werden nur Versionsnummer und gewählte Kategorie. Sonst öffnet oder sendet die Erweiterung nichts.
 - **Keine Telemetrie, keine externen Dienste, kein nachgeladener Code.**
-- **Nachprüfbar:** Die eigene Logik steht vollständig in `src/belegtext.js` (rund 630 Zeilen, kommentiert), `src/pruefung.js` (Filterregeln der Texterkennung und Prüfziffern, rund 160 Zeilen), `src/bridge.js` (eine Zeile) `src/background.js` (Anleitung und Feedbackseite, rund 10 Zeilen) und `src/popup.js` (Popup am Symbol, rund 25 Zeilen). Jede Store-Version entspricht einem Git-Tag in diesem Repository.
+- **Nachprüfbar:** Die eigene Logik steht vollständig in `src/belegtext.js` (rund 630 Zeilen, kommentiert), `src/pruefung.js` (Filterregeln der Texterkennung und Prüfziffern, rund 160 Zeilen), `src/bridge.js` (eine Zeile), `src/background.js` (Anleitung und Feedbackseite, rund 10 Zeilen) und `src/popup.js` (Popup am Symbol, rund 25 Zeilen). Jede Store-Version entspricht einem Git-Tag in diesem Repository.
 
 Datenschutzerklärung: [PRIVACY.md](PRIVACY.md)
 
@@ -94,7 +94,7 @@ Für Tests und Messungen (nicht Teil des Store-Pakets) einmal `npm install`, dan
 
 Am einfachsten über das Belegtext-Symbol in der Symbolleiste. Alternativ über [GitHub Issues](https://github.com/bastiraschi/belegtext/issues) oder per E-Mail an [belegtext@rasch.finance](mailto:belegtext@rasch.finance). **Keine echten Belege, Mandantendaten oder Screenshots davon anhängen.** Für Beispiele eignen sich die Musterbelege in `store/musterbelege/`.
 
-Hilfreich für Fehlermeldungen: Meldungen aus der Entwicklerkonsole (F12) mit dem Präfix `[Belegtext]`. Die Belegansicht läuft in einem eingebetteten Frame – in der Konsole oben links im Kontext-Auswahlfeld `duo-belegbildanzeige.apps.datev.de` wählen.
+Hilfreich für Fehlermeldungen: Meldungen aus der Entwicklerkonsole (F12) mit dem Präfix `[Belegtext]`. In der neuen Belegansicht (`duo-belege.apps.datev.de`) erscheinen sie direkt in der Konsole; in der bisherigen Ansicht läuft der Beleg in einem eingebetteten Frame – dort oben links im Kontext-Auswahlfeld `duo-belegbildanzeige.apps.datev.de` wählen.
 
 ## Herausgeber
 
