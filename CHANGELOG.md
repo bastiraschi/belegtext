@@ -1,5 +1,10 @@
 # Änderungen
 
+## 1.3.0 – 2026-11-22
+
+- Auswahllisten mit Suchfeld in den Belegdetails (z. B. „Geschäftspartner“): Beim Öffnen steht der Cursor direkt im Suchfeld, man kann sofort lostippen. Pfeiltasten markieren einen Treffer, Enter wählt ihn, Escape schließt die Liste. Bisher musste man erst ins Suchfeld klicken, und die Pfeiltasten wirkten dort nicht
+- Gilt nur für die neue Belegansicht (`duo-belege.apps.datev.de`); keine neue Adresse, keine neue Berechtigung
+
 ## 1.2.1 – 2026-11-22
 
 - Läuft in der neuen Belegansicht von DATEV Unternehmen online (`duo-belege.apps.datev.de`, Belegdetails mit Seitenpanel). Der Viewer ist dort kein eigener Frame mehr, sondern in die Belege-App eingebettet (Web Component mit Shadow DOM); Textlayer, Doppelklick, Ziehen und DATEVs Erkennungskästen funktionieren dort wieder. Die bisherige Belegansicht (`duo-belegbildanzeige.apps.datev.de`) wird weiter unterstützt

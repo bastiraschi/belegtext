@@ -1,0 +1,6 @@
+/* Per Pfeiltaste markierter Eintrag in DATEVs Auswahllisten (src/auswahlsuche.js) */
+[role="option"].belegtext-option-aktiv {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+  background-color: rgba(0, 0, 0, 0.06);
+}
