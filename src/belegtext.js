@@ -131,9 +131,22 @@
     return new TextEncoder().encode(pdf);
   }
 
+  /**
+   * Der Viewer läuft entweder als eigener Frame (duo-belegbildanzeige) oder als Web Component
+   * mit offener Shadow-Root direkt in der Belege-App (duo-belege). Shadow-Roots sind für
+   * document.querySelectorAll unsichtbar, deshalb wird hier jede Root abgesucht.
+   */
+  function queryAllRoots(selector, root = document) {
+    const found = [...root.querySelectorAll(selector)];
+    for (const el of root.querySelectorAll('*')) {
+      if (el.shadowRoot) found.push(...queryAllRoots(selector, el.shadowRoot));
+    }
+    return found;
+  }
+
   /** Seiten, die der Viewer vor der Hook-Installation gezeichnet hat, bekommen erst beim nächsten Rendern (Zoom, Blättern) einen Textlayer. */
   function reportMissedPages() {
-    const missed = [...document.querySelectorAll(`${HOST_SELECTOR} > canvas`)].filter((c) => c.width > 0 && !renders.has(c));
+    const missed = queryAllRoots(`${HOST_SELECTOR} > canvas`).filter((c) => c.width > 0 && !renders.has(c));
     if (missed.length) warn(`${missed.length} Seite(n) vor der Initialisierung gerendert – Text erscheint nach Zoom oder Blättern.`);
   }
 
@@ -181,6 +194,9 @@
   }
 
   async function buildLayer(host, canvas, job) {
+    await Promise.all([stylesIn(document), stylesIn(host.getRootNode())]);
+    if (renders.get(canvas) !== job) return;
+
     if (job.kind === 'pdf') {
       const { page, rotation } = job;
       if (!textContents.has(page)) textContents.set(page, page.getTextContent());
@@ -213,11 +229,38 @@
     renderOcrLayer(createLayer(host, 1), lines, canvas.clientWidth, canvas.clientHeight);
   }
 
+  /*
+   * Stylesheets aus dem Manifest gelten nur im Dokument, nicht in Shadow-Roots. Deshalb hängt
+   * Belegtext sein CSS selbst in jede Root, in der ein Layer entsteht (und ins Dokument für den
+   * Kopier-Hinweis), und baut den Layer erst nach dem Laden – sonst wäre der Text kurz sichtbar.
+   */
+  const styleLoads = new WeakMap();
+  function stylesIn(root) {
+    if (!styleLoads.has(root)) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = `${extensionBase()}src/belegtext.css`;
+      styleLoads.set(root, new Promise((resolve, reject) => {
+        link.onload = resolve;
+        link.onerror = () => reject(new Error(`Konnte ${link.href} nicht laden`));
+      }));
+      (root === document ? document.head ?? document.documentElement : root).appendChild(link);
+    }
+    return styleLoads.get(root);
+  }
+
+  /** Basis-URL der Erweiterung, gesetzt von src/bridge.js (chrome.runtime gibt es in MAIN nicht). */
+  function extensionBase() {
+    const base = document.documentElement.dataset.belegtextBase;
+    if (!base) throw new Error('Pfad zu den Dateien der Erweiterung fehlt');
+    return base;
+  }
+
   function createLayer(host, scale) {
     clearHost(host);
     const layer = document.createElement('div');
     layer.className = LAYER_CLASS;
-    layer.tabIndex = -1; // fokussierbar, damit Strg+C in diesem Frame ankommt
+    layer.tabIndex = -1; // fokussierbar, damit Strg+C beim Layer ankommt
     layer.style.setProperty('--total-scale-factor', String(scale));
     layer.style.setProperty('--scale-factor', String(scale));
     host.appendChild(layer);
@@ -271,8 +314,7 @@
 
   function ocrWorker() {
     ocrWorkerPromise ??= (async () => {
-      const base = document.documentElement.dataset.belegtextVendor;
-      if (!base) throw new Error('Pfad zu den OCR-Dateien der Erweiterung fehlt');
+      const base = `${extensionBase()}vendor/`;
       await loadScript(`${base}tesseract.min.js`);
       return window.Tesseract.createWorker('deu', 1 /* LSTM */, {
         workerPath: `${base}worker.min.js`,
@@ -490,17 +532,20 @@
     window.getSelection().setBaseAndExtent(spans[first].firstChild, start, spans[last].firstChild, end);
   }
 
-  function layerAt(x, y) {
-    return document.elementsFromPoint(x, y).find((el) => el.classList.contains(LAYER_CLASS)) ?? null;
+  /** In der Shadow-Root des Layers suchen – document.elementsFromPoint endet am Shadow-Host. */
+  function layerAt(root, x, y) {
+    return root.elementsFromPoint(x, y).find((el) => el.classList.contains(LAYER_CLASS)) ?? null;
   }
 
   document.addEventListener(
     'mousedown',
     (event) => {
-      if (event.button !== 0 || event.detail > 2 || !(event.target instanceof Element)) return;
+      // Im Shadow DOM zeigt event.target auf den Shadow-Host; das eigentliche Ziel steht im Pfad.
+      const target = event.composedPath()[0];
+      if (event.button !== 0 || event.detail > 2 || !(target instanceof Element)) return;
 
       if (event.detail === 2) {
-        const box = event.target.closest(DATEV_BOX);
+        const box = target.closest(DATEV_BOX);
         if (box) {
           event.preventDefault();
           box.focus({ preventScroll: true });
@@ -508,7 +553,7 @@
           copySelection();
           return;
         }
-        const layer = event.target.closest(`.${LAYER_CLASS}`);
+        const layer = target.closest(`.${LAYER_CLASS}`);
         if (!layer) return;
         event.preventDefault();
         layer.focus({ preventScroll: true });
@@ -517,13 +562,13 @@
         return;
       }
 
-      const layer = event.target.closest(`.${LAYER_CLASS}`);
+      const layer = target.closest(`.${LAYER_CLASS}`);
       if (!layer) return;
       const anchor = caretNear(layer, event.clientX, event.clientY);
       if (!anchor) return;
       event.preventDefault();
-      // preventDefault verhindert den Fokuswechsel in diesen Frame – ohne Fokus ginge
-      // Strg+C an das Erfassungsformular im Nachbar-Frame.
+      // preventDefault verhindert den Fokuswechsel – ohne Fokus ginge Strg+C an das
+      // Erfassungsformular (Nachbar-Frame oder Seitenpanel).
       layer.focus({ preventScroll: true });
       drag = { layer, anchor, moved: false };
       window.getSelection().setBaseAndExtent(anchor.node, anchor.offset, anchor.node, anchor.offset);
@@ -547,7 +592,7 @@
     const move = pendingMove;
     pendingMove = null;
     if (!drag || !move) return;
-    const layer = layerAt(move.x, move.y) ?? drag.layer;
+    const layer = layerAt(drag.layer.getRootNode(), move.x, move.y) ?? drag.layer;
     const focus = caretNear(layer, move.x, move.y);
     if (!focus) return;
     const { anchor } = drag;
@@ -616,6 +661,7 @@
   let toastTimer;
   /** Warnungen bleiben länger stehen und sind farbig abgesetzt. */
   function toast(message, warning = false) {
+    stylesIn(document).catch((err) => warn('Stylesheet fehlt', err));
     let el = document.querySelector('.belegtext-toast');
     if (!el) {
       el = document.createElement('div');

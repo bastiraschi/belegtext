@@ -8,7 +8,7 @@ Belegtext verarbeitet keine personenbezogenen Daten außerhalb Ihres Browsers. D
 
 ## Was die Erweiterung tut
 
-Belegtext läuft ausschließlich in der Belegansicht von DATEV Unternehmen online (`duo-belegbildanzeige.apps.datev.de`). Dort liest sie lokal im Browser den Text der gerade angezeigten Belege – aus der Textebene des PDFs oder per Texterkennung aus dem Belegbild – und legt ihn als unsichtbare, markierbare Ebene über den Beleg.
+Belegtext läuft ausschließlich in der Belegansicht von DATEV Unternehmen online (`duo-belege.apps.datev.de` und `duo-belegbildanzeige.apps.datev.de`). Dort liest sie lokal im Browser den Text der gerade angezeigten Belege – aus der Textebene des PDFs oder per Texterkennung aus dem Belegbild – und legt ihn als unsichtbare, markierbare Ebene über den Beleg.
 
 - Die Verarbeitung findet vollständig im Arbeitsspeicher Ihres Browsers statt.
 - Es werden keine Belegdaten, Texte oder Bilder gespeichert. Beim Schließen der Seite ist alles verworfen.
@@ -22,7 +22,7 @@ Einmalig nach der Installation öffnet Belegtext die Anleitung `https://rasch.fi
 
 ## Berechtigungen
 
-Belegtext fordert keine Browser-Berechtigungen an. Der Zugriff auf Webseiten ist technisch auf die oben genannte Adresse beschränkt; darauf weist Chrome bei der Installation hin („Kann Ihre Daten auf duo-belegbildanzeige.apps.datev.de lesen und ändern“). Die Erweiterung braucht diesen Zugriff, um den Textlayer über den angezeigten Beleg zu legen.
+Belegtext fordert keine Browser-Berechtigungen an. Der Zugriff auf Webseiten ist technisch auf die oben genannten Adressen beschränkt; darauf weist Chrome bei der Installation hin („Kann Ihre Daten auf duo-belege.apps.datev.de und duo-belegbildanzeige.apps.datev.de lesen und ändern“). Die Erweiterung braucht diesen Zugriff, um den Textlayer über den angezeigten Beleg zu legen.
 
 ## Kontakt
 
@@ -34,6 +34,6 @@ Projekt: https://rasch.finance/belegtext/ · Quellcode: https://github.com/basti
 
 # Privacy Policy – Belegtext (English)
 
-Belegtext does not collect, store or transmit any data. It runs only on `duo-belegbildanzeige.apps.datev.de`, reads the text of the document currently displayed (from the PDF text layer or via on-device OCR) entirely within the browser, and overlays it as a selectable layer. No network requests are made; the OCR engine and language model are bundled. No analytics or telemetry. No browser permissions are requested; site access is limited to that one host, which Chrome shows as a notice at installation. Once after installation it opens a short guide at `https://rasch.finance/belegtext/start/`, and the browser opens a feedback page at `https://rasch.finance/belegtext/feedback/` when the extension is removed. The toolbar popup opens the same feedback page in a new tab when the user picks a category; the popup itself sends nothing. Only the version number and the chosen category are passed in the address. The privacy policy of rasch.finance applies to these pages.
+Belegtext does not collect, store or transmit any data. It runs only on `duo-belege.apps.datev.de` and `duo-belegbildanzeige.apps.datev.de`, reads the text of the document currently displayed (from the PDF text layer or via on-device OCR) entirely within the browser, and overlays it as a selectable layer. No network requests are made; the OCR engine and language model are bundled. No analytics or telemetry. No browser permissions are requested; site access is limited to these two hosts, which Chrome shows as a notice at installation. Once after installation it opens a short guide at `https://rasch.finance/belegtext/start/`, and the browser opens a feedback page at `https://rasch.finance/belegtext/feedback/` when the extension is removed. The toolbar popup opens the same feedback page in a new tab when the user picks a category; the popup itself sends nothing. Only the version number and the chosen category are passed in the address. The privacy policy of rasch.finance applies to these pages.
 
 Contact: rasch.finance (legal notice: https://rasch.finance/impressum.html) · belegtext@rasch.finance
