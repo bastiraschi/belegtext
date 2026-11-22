@@ -1,6 +1,6 @@
 # Store-Einträge
 
-Gilt für Chrome Web Store und Microsoft Edge Add-ons. Hochgeladen wird `belegtext-1.2.1-store.zip` (Manifest liegt im ZIP-Wurzelverzeichnis).
+Gilt für Chrome Web Store und Microsoft Edge Add-ons. Hochgeladen wird `belegtext-1.3.0-store.zip` (Manifest liegt im ZIP-Wurzelverzeichnis).
 
 ## Grunddaten
 
@@ -27,6 +27,7 @@ SO FUNKTIONIERT ES
 • DATEVs grüne und orange Erkennungskästen bleiben bedienbar
 • Ziehen markiert beliebige Stellen, auch über mehrere Zeilen, und kopiert beim Loslassen
 • Strg+C funktioniert zusätzlich wie gewohnt
+• Auswahllisten wie „Geschäftspartner“: Cursor steht sofort im Suchfeld, Pfeiltasten und Enter wählen den Treffer
 • IBAN, USt-IdNr. und Fahrgestellnummer (FIN) werden beim Kopieren geprüft – mit Warnung, wenn etwas nicht stimmt
 • Digitale PDFs: Die im PDF vorhandene Textebene wird über den Beleg gelegt
 • Scans und Belegbilder: Der Text wird lokal per Texterkennung (Tesseract) erkannt
@@ -47,9 +48,9 @@ HINWEISE
 ## Datenschutzpraktiken (Chrome-Dashboard, Reiter „Datenschutz“)
 
 - **Einziger Zweck (Single purpose):**
-  Belegtext macht Text in der Belegansicht von DATEV Unternehmen online markier- und kopierbar, indem es eine unsichtbare Textebene über das angezeigte Belegbild legt.
+  Belegtext erleichtert das Erfassen von Belegen in der Belegansicht von DATEV Unternehmen online: Es legt eine unsichtbare, markier- und kopierbare Textebene über das angezeigte Belegbild und macht die Auswahllisten der Belegdetails (z. B. „Geschäftspartner“) direkt per Tastatur durchsuchbar.
 - **Begründung Hostzugriff (`duo-belege.apps.datev.de`, `duo-belegbildanzeige.apps.datev.de`):**
-  Die Erweiterung muss in der Belegansicht laufen, um dort die Textebene über den angezeigten Beleg zu legen. DATEV zeigt Belege je nach Oberfläche in einem eigenen Frame (`duo-belegbildanzeige`) oder direkt in der Belege-App (`duo-belege`). Die Erweiterung läuft auf keiner anderen Seite und wird dort nur am Belegbild aktiv.
+  Die Erweiterung muss in der Belegansicht laufen, um dort die Textebene über den angezeigten Beleg zu legen. DATEV zeigt Belege je nach Oberfläche in einem eigenen Frame (`duo-belegbildanzeige`) oder direkt in der Belege-App (`duo-belege`). Die Erweiterung läuft auf keiner anderen Seite und wird dort nur am Belegbild und an Auswahllisten mit Suchfeld in den Belegdetails aktiv (Cursor ins Suchfeld, Pfeiltasten, Enter, Escape; es werden keine Werte gelesen oder gesetzt).
 - **Remote-Code:** Nein. Sämtlicher Code einschließlich der Texterkennung ist im Paket enthalten.
 - **Service Worker:** öffnet nur einmalig nach der Installation die Anleitung und setzt die Feedbackseite für die Deinstallation (`chrome.tabs.create`, `chrome.runtime.setUninstallURL`, beides ohne Berechtigung).
 - **Popup (`action`):** keine Berechtigung. Öffnet auf Klick die Feedbackseite oder die Anleitung auf rasch.finance in einem neuen Tab (`chrome.tabs.create`) und sendet selbst nichts.
@@ -62,7 +63,7 @@ HINWEISE
 Benutzername und Passwort leer lassen (kein Testzugang möglich). Zusätzliche Anweisungen, Englisch, höchstens 500 Zeichen:
 
 ```
-Runs only in the document viewer of DATEV Unternehmen online (duo-belege / duo-belegbildanzeige.apps.datev.de). Login needs a hardware token, so no test account is possible. It overlays a selectable text layer on the shown invoice (PDF text layer or bundled OCR). Only access: content script on these hosts. No data sent, no remote code. Guide on rasch.finance once after install; toolbar popup and uninstall open a feedback page (version, category only). Code: github.com/bastiraschi/belegtext
+Runs only in the document viewer of DATEV Unternehmen online (duo-belege / duo-belegbildanzeige.apps.datev.de). No test account possible (login needs a hardware token). Overlays a selectable text layer on the invoice (PDF text or bundled OCR) and focuses the search field of dropdowns. Only access: content scripts on these hosts. No data sent, no remote code. Guide on rasch.finance after install; popup and uninstall open a feedback page (version, category only). github.com/bastiraschi/belegtext
 ```
 
 ## Händlerstatus (EU-Digital-Services-Act)
